@@ -9,16 +9,12 @@
         <h1><a href = "/">Mine marketplace or blog</a></h1>
     </div>
 
+    {% for post in posts %}
     <div>
-        <h2><a href = "">My first product</a></h2>
-        <p>Здесь какое-то описание</p>
-        <p>published: 09.03.20, 18:32</p>
+        <p>published: {{ post.published_date }}</p>
+        <h1><a href="">{{ post.title }}</a></h1>
+        <p>{{ post.text|linebreaksbr }}</p>
     </div>
-
-    <div>
-        <h2><a href = "">My second product</a></h2>
-        <p>Здесь опять какое-то описание</p>
-        <p>published: 09.03.20, 18:32</p>
-    </div>
+{% endfor %}
 </body>
 </html>
