@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>MarketPlace</title>
-</head>
-<body>
-    <div>
-        <h1><a href = "/">Mine marketplace or blog</a></h1>
-    </div>
+{% extends 'marketplace/base.html' %}
 
+{% block content %}
     {% for post in posts %}
-    <div>
-        <p>published: {{ post.published_date }}</p>
-        <h1><a href="">{{ post.title }}</a></h1>
-        <p>{{ post.text|linebreaksbr }}</p>
-    </div>
-{% endfor %}
-</body>
-</html>
+                    <div class = "product">
+                        <h1><a href="{% url 'product_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+                        <p>{{ post.text|linebreaksbr }}</p>
+                        <p>published: {{ post.published_date }}</p>
+                    </div>
+    {% endfor %}
+{% endblock %}
