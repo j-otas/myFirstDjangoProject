@@ -2,14 +2,14 @@
 
 {% block content %}
 <div class = "product">
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.text|linebreaksbr }}</p>
+    <h1>{{ product.title }}</h1>
+    <p>{{ product.description|linebreaksbr }}</p>
     {% if user.is_authenticated %}
-    <a class="btn btn-default" href="{% url 'product_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+    <a class="btn btn-default" href="{% url 'marketplace1:product_edit' pk=product.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
     {% endif %}
-    {% if post.published_date %}
+    {% if product.published_date %}
             <div class="date">
-                {{ post.published_date }}
+                {{ product.published_date }}
             </div>
     {% endif %}
 </div>

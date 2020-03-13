@@ -1,9 +1,9 @@
 from django import forms
 
-from .models import Post
+from .models import Product
 
 
 class ProductForm(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = ('title', 'text',)
+        model = Product
+        fields = ('title', 'description',)

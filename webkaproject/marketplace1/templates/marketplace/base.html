@@ -5,7 +5,7 @@
 <head>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&display=swap">
     <link rel="stylesheet" href="{% static 'css/product_list.css' %}">
     <meta charset="UTF-8">
     <title>MarketPlace</title>
@@ -13,7 +13,7 @@
 <body>
     <div class ="page-header">
         {%if user.is_authenticated %}
-        <a href="{% url 'product_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+        <a href="{% url 'marketplace1:product_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
         {% endif %}
         <h1><a href = "/">TOP Marketplace</a></h1>
     </div>
