@@ -11,12 +11,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+from django.urls import reverse_lazy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+
+LOGIN_REDIRECT_URL=reverse_lazy('marketplace1:product_list')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '5aq5edy*cth3wphy%qm&l_ijim=@mletb4y-u0n0j&y5ezmb_d'
@@ -35,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'marketplace1.apps.Marketplace1Config'
+    'marketplace1.apps.Marketplace1Config',
+    'authorization.apps.AuthorizationConfig',
 ]
 
 MIDDLEWARE = [
@@ -73,8 +76,11 @@ WSGI_APPLICATION = 'webkaproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'marketplace',
+        'USER': 'root',
+        'PASSWORD': '',
+
     }
 }
 

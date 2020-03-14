@@ -1,0 +1,19 @@
+{% extends 'authorization/auth_base.html' %}
+
+{% block content %}
+<head>
+    <title>Регистрация</title>
+</head>
+<body>
+    <h1 class="mt-4">Регистрация</h1>
+    <div class = 'col-3'>
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form }}
+            <button class="btn btn-success mt-4" type = 'submit'>Отправить</button>
+        </form>
+    </div>
+</body>
+
+{% endblock %}

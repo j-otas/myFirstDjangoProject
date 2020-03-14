@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('marketplace1.urls')),
+    path('auth/', include('authorization.urls')),
 ]
