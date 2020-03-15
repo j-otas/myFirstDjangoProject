@@ -3,12 +3,25 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/auth_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth_page.css' %}">
     <meta charset="UTF-8">
 
 </head>
 <body>
-    {% block content %}
-    {% endblock %}
+    <body>
+    <div class = 'container_content'>
+        <div class ='auth_window_wrap'>
+                <div class ='logo'>
+                    <img src="{% static 'img/templogo.png' %}">
+                </div>
+                {% block content %}
+                {% endblock %}
+        </div>
+<!--        <form action="reg" class="mt-4">-->
+<!--            <button class="btn btn-warning">Регистрация</button>-->
+<!--        </form>-->
+    </div>
+</body>
+
 </body>
 </html>

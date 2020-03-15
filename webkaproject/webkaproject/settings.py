@@ -19,6 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 LOGIN_REDIRECT_URL=reverse_lazy('marketplace1:product_list')
+LOGOUT_REDIRECT_URL=reverse_lazy('marketplace1:product_list')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '5aq5edy*cth3wphy%qm&l_ijim=@mletb4y-u0n0j&y5ezmb_d'

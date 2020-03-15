@@ -1,19 +1,25 @@
 {% extends 'authorization/auth_base.html' %}
 
 {% block content %}
+{% load static %}
 <head>
-    <title>Регистрация</title>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+    <title>Авторизация</title>
 </head>
 <body>
-    <h1 class="mt-4">Регистрация</h1>
-    <div class = 'col-3'>
-        <form method="POST">
+        <form class = 'auth_form' method="POST">
             {% csrf_token %}
-
+            <span class = 'login_title'>Регистрация</span>
             {{ form }}
-            <button class="btn btn-success mt-4" type = 'submit'>Отправить</button>
+            <div class="button_submit_div">
+                <button class="btn btn-success" type = 'submit'>Отправить</button>
+            </div>
+            <div class ='ref_under_button'>
+                <a href="{% url 'authorization:auth_page' %}">Уже есть аккаунт</a>
+                <br>
+                <a href="{% url 'marketplace1:product_list' %}" style ="font-size:15px;">Вернуться на главную</a>
+            </div>
         </form>
-    </div>
 </body>
 
 {% endblock %}

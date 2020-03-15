@@ -7,27 +7,19 @@
     <title>Авторизация</title>
 </head>
 <body>
-    <div class = 'container_content'>
-        <div class ='auth_window_wrap'>
-                <div class ='logo'>
-                    <img src="{% static 'images/templogo.png' %}">
-                </div>
-                <form class = 'auth_form' method="POST">
-                    {% csrf_token %}
-                    <span class = 'login_title'>Авторизация</span>
-                    {{ form }}
-                    <div class="button_submit_div">
-                        <button class="btn btn-success" type = 'submit'>Отправить</button>
-                    </div>
-                    <div class ='ref_under_button'>
-                        <a href="reg">Зарегестрироваться</a>
-                    </div>
-                </form>
-        </div>
-<!--        <form action="reg" class="mt-4">-->
-<!--            <button class="btn btn-warning">Регистрация</button>-->
-<!--        </form>-->
-    </div>
+        <form class = 'auth_form' method="POST">
+            {% csrf_token %}
+            <span class = 'login_title'>Авторизация</span>
+            {{ form }}
+            <div class="button_submit_div">
+                <button class="btn btn-success" type = 'submit'>Отправить</button>
+            </div>
+            <div class ='ref_under_button'>
+                <a href="reg">Зарегестрироваться</a>
+                <br>
+                <a href="{% url 'marketplace1:product_list' %}" style ="font-size:15px;">Вернуться на главную</a>
+            </div>
+        </form>
 </body>
 
 {% endblock %}

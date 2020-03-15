@@ -50,15 +50,24 @@
                 </div>
             </div>
             <div class="col-1">
+                {% if user.is_authenticated %}
                 <a href="#">
                     <div class="presonal_room">Л.К.</div>
+                    {{ user }}
                 </a>
+                <a href="{% url 'authorization:logout' %}">
+                    <div class="logout">Выйти</div>
+                </a>
+                {% else %}
+                <a href ="{% url 'authorization:auth_page' %}" class="go_auth">
+                    <div class = 'go_auth_btn'>Войти</div>
+                </a>
+                {% endif %}
             </div>
         </div>
     </header>
     <main>
         {% block carousel %}
-
         {% endblock %}
 
         {% block content %}

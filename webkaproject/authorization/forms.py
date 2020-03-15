@@ -3,6 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
 
+
 class AuthUserForm(AuthenticationForm, forms.ModelForm):
     class Meta:
         model = User
@@ -23,11 +24,20 @@ class RegisterUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'password')
-
+        widgets={
+            'password': forms.PasswordInput()
+        }
     def __init__(self, *args,**kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'form-control'
+            self.fields['username'].widget.attrs['placeholder'] = 'Логин'
+            self.fields['username'].widget.attrs['class'] = 'username_input'
+            self.fields['username'].label = ''
+            self.fields['username'].help_text = ''
+            self.fields['password'].widget.attrs['placeholder'] = 'Пароль'
+            self.fields['password'].widget.attrs['class'] = 'password_input'
+            self.fields['password'].label = ''
+
 
     def save(self, commit=True):
         user = super().save(commit=False)
