@@ -7,7 +7,7 @@ from django.utils import timezone
 
 def product_list(request):
     products = Product.objects.filter(published_date__lte=timezone.now()).order_by("published_date")
-    return render(request, 'marketplace/product_list.html', {'products': products})
+    return render(request, 'marketplace/content.html', {'products': products})
 
 
 def product_detail(request, pk):
