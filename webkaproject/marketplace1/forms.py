@@ -6,4 +6,5 @@ from .models import Product
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('title', 'description',)
+        fields = ('title', 'description', 'cost', 'image', )
+

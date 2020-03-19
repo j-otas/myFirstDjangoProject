@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import CreateView
+from django.views.generic import CreateView, View
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login
@@ -23,7 +23,6 @@ class RegisterUserView(CreateView):
         new_user = form.save()
         login(self.request, new_user)
         return valid
-
 
 
 class AuthUserView(LoginView):

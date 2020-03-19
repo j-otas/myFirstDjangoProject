@@ -1,25 +1,36 @@
 {% extends 'authorization/auth_base.html' %}
+{% load static %}
+
+
+{% block css %}
+<style>
+    .container_content{
+        background-image: linear-gradient(180deg, #009efd 0%, #2af598 100%);
+    }
+</style>
+{% endblock %}
+
+
+{% block title %}
+<title>Регистрация</title>
+{% endblock %}
+
 
 {% block content %}
-{% load static %}
-<head>
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
-    <title>Авторизация</title>
-</head>
-<body>
-        <form class = 'auth_form' method="POST">
-            {% csrf_token %}
-            <span class = 'login_title'>Регистрация</span>
-            {{ form }}
-            <div class="button_submit_div">
-                <button class="btn btn-success" type = 'submit'>Отправить</button>
-            </div>
-            <div class ='ref_under_button'>
-                <a href="{% url 'authorization:auth_page' %}">Уже есть аккаунт</a>
-                <br>
-                <a href="{% url 'marketplace1:product_list' %}" style ="font-size:15px;">Вернуться на главную</a>
-            </div>
-        </form>
-</body>
-
+<div class ='logo'>
+    <img src="{% static 'img/templogo.png' %}">
+</div>
+<form class = 'auth_form' method="POST">
+    {% csrf_token %}
+    <span class = 'login_title'>Регистрация</span>
+    {{ form }}
+    <div class="button_submit_div">
+        <button class="btn btn-success" type = 'submit'>Отправить</button>
+    </div>
+    <div class ='ref_under_button'>
+        <a href="{% url 'authorization:auth_page' %}">Уже есть аккаунт</a>
+        <br>
+        <a href="{% url 'marketplace1:product_list' %}" style ="font-size:15px;">Вернуться на главную</a>
+    </div>
+</form>
 {% endblock %}

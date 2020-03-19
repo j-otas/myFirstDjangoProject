@@ -4,7 +4,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Geek Soft - Главная</title>
+    {% block title %}<title>Geek Soft - Главная</title> {% endblock %}
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/main_page.css' %}">
@@ -46,7 +47,7 @@
             </div>
             <div class="col-2">
                 <div class="make_ad">
-                    <span>Разместить объяление</span>
+                    <span><a href ={% if user.is_authenticated %} {% url 'marketplace1:product_new' %} {% else %} {% url 'authorization:auth_page' %}{% endif %}>Разместить объяление</a></span>
                 </div>
             </div>
             <div class="col-1">

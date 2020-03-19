@@ -1,9 +1,22 @@
-{% extends 'marketplace/base.html' %}
+{% extends 'authorization/auth_base.html' %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/product_new.css' %}">
+{% endblock %}
+
+{% block title %}
+<title>Разместить объявление</title>
+{% endblock %}
 
 {% block content %}
-<div class = "product">
+<div class = "title_page">
+    <h1>Разместить объявление</h1>
+</div>
 
-    <form method="POST">
+<div class = "product">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Save</button>

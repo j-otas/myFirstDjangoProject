@@ -1,5 +1,5 @@
 {% extends 'marketplace/marketplace_main_page_base.html' %}
-
+{% load static %}
 {% block carousel %}
     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">s
@@ -70,41 +70,17 @@
         <div class="content">
             <h2>Все объявления</h2>
             <div class="ad_blocks-block">
+                {% for product in products %}
                 <div class="ad_card">
-                    <div class="ad_card-logo"></div>
-                    <span class="ad_card-price">15$</span>
-                    <span class="ad_card-title">Название объяления</span>
+                    <div class="ad_card-logo">
+                        {% if product.image %}<img src ="{{ product.image.url }}">
+                        {% else %} <img src ="{% static 'img/no_image.png' %}">
+                        {% endif %}
+                    </div>
+                    <span class="ad_card-price">{{product.cost}}₽</span>
+                    <span class="ad_card-title">{{product.title}}</span>
                 </div>
-                <div class="ad_card">
-                    <div class="ad_card-logo"></div>
-                    <span class="ad_card-price">15$</span>
-                    <span class="ad_card-title">Название объяления</span>
-                </div>
-                <div class="ad_card">
-                    <div class="ad_card-logo"></div>
-                    <span class="ad_card-price">15$</span>
-                    <span class="ad_card-title">Название объяления</span>
-                </div>
-                <div class="ad_card">
-                    <div class="ad_card-logo"></div>
-                    <span class="ad_card-price">15$</span>
-                    <span class="ad_card-title">Название объяления</span>
-                </div>
-                <div class="ad_card">
-                    <div class="ad_card-logo"></div>
-                    <span class="ad_card-price">15$</span>
-                    <span class="ad_card-title">Название объяления</span>
-                </div>
-                <div class="ad_card">
-                    <div class="ad_card-logo"></div>
-                    <span class="ad_card-price">15$</span>
-                    <span class="ad_card-title">Название объяления</span>
-                </div>
-                <div class="ad_card">
-                    <div class="ad_card-logo"></div>
-                    <span class="ad_card-price">15$</span>
-                    <span class="ad_card-title">Название объяления</span>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
