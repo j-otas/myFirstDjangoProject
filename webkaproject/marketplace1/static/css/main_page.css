@@ -50,7 +50,7 @@ header button {
   color: #fff;
 }
 
-.make_ad {
+.make_product {
   height: 35px;
   background: rgb(119, 192, 38);
   border-radius: 5px;
@@ -59,7 +59,7 @@ header button {
   line-height: 35px;
 }
 
-.make_ad a{
+.make_product a{
 text-decoration: none;
 color:#fff;
 }
@@ -92,7 +92,7 @@ main {
   justify-content: space-around;
 }
 
-.product_card {
+.carousel_card{
   width: 48%;
   height: 200px;
   background: #ccc;
@@ -121,13 +121,13 @@ main {
   list-style-type: none;
 }
 
-.ad_blocks-block {
+.product_blocks-block {
   /* display: flex;
   justify-content: space-between; */
   padding-top: 15px;
 }
 
-.ad_card {
+.product_card {
   width: 210px;
   height: 290px;
   background-color: #fff;;
@@ -141,25 +141,25 @@ main {
   cursor: pointer;
 }
 
-.ad_card-logo {
+.product_card-logo {
   width: 100%;
   height: 200px;
   background-color: #ccc;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
-.ad_card-logo img{
+
+.product_card-logo img{
 width:100%;
 height: 100%;
-
 }
 
-.ad_card-price {
+.product_card-price {
   font-size: 30px;
   padding-left: 15px;
   padding-top: 5px;
 }
 
-.ad_card-title {
+.product_card-title {
   padding-left: 15px;
 }

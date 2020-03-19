@@ -5,30 +5,30 @@
     <div class="carousel-inner">s
         <div class="carousel-item active">
             <div class="carousel_cards">
-                <div class="product_card">
+                <div class="carousel_card">
                     <span>Some text</span>
                 </div>
-                <div class="product_card">
-                    <span>Some text</span>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <div class="carousel_cards">
-                <div class="product_card">
-                    <span>Some text</span>
-                </div>
-                <div class="product_card">
+                <div class="carousel_card">
                     <span>Some text</span>
                 </div>
             </div>
         </div>
         <div class="carousel-item">
             <div class="carousel_cards">
-                <div class="product_card">
+                <div class="carousel_card">
                     <span>Some text</span>
                 </div>
-                <div class="product_card">
+                <div class="carousel_card">
+                    <span>Some text</span>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="carousel_cards">
+                <div class="carousel_card">
+                    <span>Some text</span>
+                </div>
+                <div class="carousel_card">
                     <span>Some text</span>
                 </div>
             </div>
@@ -69,16 +69,16 @@
     <div class="col-10">
         <div class="content">
             <h2>Все объявления</h2>
-            <div class="ad_blocks-block">
+            <div class="product_blocks-block">
                 {% for product in products %}
-                <div class="ad_card">
-                    <div class="ad_card-logo">
+                <div class="product_card">
+                    <div class="product_card-logo">
                         {% if product.image %}<img src ="{{ product.image.url }}">
                         {% else %} <img src ="{% static 'img/no_image.png' %}">
                         {% endif %}
                     </div>
-                    <span class="ad_card-price">{{product.cost}}₽</span>
-                    <span class="ad_card-title">{{product.title}}</span>
+                    <span class="product_card-price">{{product.cost}}₽</span>
+                    <span class="product_card-title">{{product.title}}</span>
                 </div>
                 {% endfor %}
             </div>

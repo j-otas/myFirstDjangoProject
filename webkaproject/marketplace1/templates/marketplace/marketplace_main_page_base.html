@@ -46,7 +46,7 @@
 
             </div>
             <div class="col-2">
-                <div class="make_ad">
+                <div class="make_product">
                     <span><a href ={% if user.is_authenticated %} {% url 'marketplace1:product_new' %} {% else %} {% url 'authorization:auth_page' %}{% endif %}>Разместить объяление</a></span>
                 </div>
             </div>
