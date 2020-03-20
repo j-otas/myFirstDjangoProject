@@ -17,16 +17,22 @@
 
 
 {% block content %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
 <div class ='logo'>
     <img src="{% static 'img/templogo.png' %}">
 </div>
-<form class = 'auth_form' method="POST">
-    {% csrf_token %}
+
+<form class = 'auth_form' method="POST"> {% csrf_token %}
+
     <span class = 'login_title'>Регистрация</span>
+
     {{ form }}
+
     <div class="button_submit_div">
         <button class="btn btn-success" type = 'submit'>Отправить</button>
     </div>
+
     <div class ='ref_under_button'>
         <a href="{% url 'authorization:auth_page' %}">Уже есть аккаунт</a>
         <br>

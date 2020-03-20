@@ -24,6 +24,8 @@ if settings.DEBUG:
         path('admin/', admin.site.urls),
         path('', include('marketplace1.urls')),
         path('auth/', include('authorization.urls')),
+        path('auc/', include('auction.urls')),
+
     ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
 else:
@@ -31,4 +33,5 @@ else:
         path('admin/', admin.site.urls),
         path('', include('marketplace1.urls')),
         path('auth/', include('authorization.urls')),
+        path('auc/', include('auction.urls')),
     ]

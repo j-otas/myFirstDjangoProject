@@ -17,12 +17,14 @@ class RegisterUserView(CreateView):
     success_msg = 'Пользователь успешно создан'
 
     def form_valid(self, form):
-        valid = super(RegisterUserView, self).form_valid(form)
-        username, password = form.cleaned_data.get('username'), form.cleaned_data.get('password')
-        new_user = authenticate(username=username, password=password)
-        new_user = form.save()
-        login(self.request, new_user)
-        return valid
+        if self.request.recaptcha_is_valid:
+            valid = super(RegisterUserView, self).form_valid(form)
+            username, password = form.cleaned_data.get('username'), form.cleaned_data.get('password')
+            new_user = authenticate(username=username, password=password)
+            new_user = form.save()
+            login(self.request, new_user)
+            return valid
+        return render(self.request, '',self.get_context_data())
 
 
 class AuthUserView(LoginView):
