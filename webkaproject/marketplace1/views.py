@@ -18,18 +18,56 @@ def product_detail(request, pk):
     return render(request, 'marketplace/product_detail.html', {'product': product})
 
 
-def product_new(request):
-    if request.POST:
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            product = form.save(commit=False)
-            product.author = request.user
-            product.published_date = timezone.now()
-            product.save()
-            return redirect('marketplace1:product_detail', pk= product.pk)
-    else:
-        form = ProductForm()
-        return render(request, 'marketplace/product_new.html', {'form': form})
+class NewProductView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'marketplace/product_new.html'
+    success_url = reverse_lazy('marketplace1:product_list')
+
+    def form_valid(self, form):
+        new_product = form.save(commit=False)
+        new_product.author = self.request.user
+        new_product.published_date = timezone.now()
+
+        new_product.save()
+        return super().form_valid(form)
+
+# def product_new(request):
+#     if request.POST:
+#         form = ProductForm(request.POST)
+#         if form.is_valid():
+#             product = form.save(commit=False)
+#             product.author = request.user
+#             product.published_date = timezone.now()
+#             product.save()
+#             return redirect('marketplace1:product_detail', pk= product.pk)
+#     else:
+#         form = ProductForm()
+#         return render(request, 'marketplace/product_new.html', {'form': form})
+
+
+class Personal (View):
+    def get(self, request, *args, **kwargs):
+        cur_user = self.request.user
+        if cur_user.is_authenticated:
+            return render(self.request, 'personal/personal_main.html', {'cur_user': cur_user})
+
+
+class BalanceRefill (TemplateView):
+    template_name = 'marketplace/refill.html'
+
+    def post(self, request, *args, **kwargs):
+        cur_user = UserDetails.objects.get(user = request.user)
+        money = Decimal(request.POST['count_money'])
+        cur_user.balance += money
+
+        cur_user.save()
+        return render(request, 'marketplace/refill.html')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
 
 
 class Personal (View):

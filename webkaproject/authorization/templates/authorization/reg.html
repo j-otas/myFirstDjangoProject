@@ -1,20 +1,5 @@
 {% extends 'authorization/auth_base.html' %}
-<<<<<<< HEAD
 
-{% block content %}
-<head>
-    <title>Регистрация</title>
-</head>
-<body>
-    <h1 class="mt-4">Регистрация</h1>
-    <div class = 'col-3'>
-        <form method="POST">
-            {% csrf_token %}
-
-            {{ form }}
-            <button class="btn btn-success mt-4" type = 'submit'>Отправить</button>
-        </form>
-=======
 {% load static %}
 
 
@@ -50,8 +35,12 @@
 
     <div class="button_submit_div">
         <button class="btn btn-success" type = 'submit'>Отправить</button>
->>>>>>> f881494... Added default auction page, refill balance page, personal page, user details
     </div>
-</body>
 
+    <div class ='ref_under_button'>
+        <a href="{% url 'authorization:auth_page' %}">Уже есть аккаунт</a>
+        <br>
+        <a href="{% url 'marketplace1:product_list' %}" style ="font-size:15px;">Вернуться на главную</a>
+    </div>
+</form>
 {% endblock %}
