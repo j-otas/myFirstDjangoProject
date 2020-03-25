@@ -2,6 +2,11 @@
 {% load static %}
 {% load poll_extras %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/auction_list.css' %}"
+{% endblock %}
+
+
 {% block content %}
 <script>
     var audioBuffer = null;
@@ -33,11 +38,32 @@
     }
 </script>
 
-<h1>Список аукционов</h1>
+<h1 >Список аукционов</h1>
+<h2>Сейчас: {% now "d F" %}</h2>
+
 {% for auction in auction_list %}
-    <a href=""> <li>{{ auction.product.title }}</li></a>
-    <li>{{ auction.product.description }}</li>
-    <li>До конца аукциона:{{ auction.time_ending|delta_time}}</li>
+    <div class="auction_block jumbotron">
+
+        <div class = "auction_title"><a href="">
+            <h2 class="display-4">{{ auction.product.title }}</h2>
+        </a></div>
+
+        <div class = "auction_description my-4">
+            <p>{{ auction.product.description }}</p>
+        </div>
+        <hr class="my-4">
+        <div class="left_time ">
+            {% if auction.time_ending|delta_time == None %}
+                <p>Аукцион завершен</p>
+            {% else %}
+                <p>До конца аукциона:{{ auction.time_ending|delta_time}}</p>
+            {% endif %}
+        </div>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="{% url 'auction:auction_detail' pk=auction.pk %}" role="button">Подробнее</a>
+        </p>
+
+    </div>
 {% endfor %}
 
 

@@ -8,6 +8,7 @@
         background-image: linear-gradient(180deg, #009efd 0%, #2af598 100%);
     }
 </style>
+    <link rel="stylesheet" href="{% static 'css/reg_page.css' %}">
 {% endblock %}
 
 
@@ -27,7 +28,9 @@
 
     <span class = 'login_title'>Регистрация</span>
 
-    {{ form }}
+    {{ reg_form }}
+
+    {{ detail_user_form }}
 
     <div class="button_submit_div">
         <button class="btn btn-success" type = 'submit'>Отправить</button>

@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'personal/personal_base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block content %}
+<div class = "personal_data">
+    <h1>Логин:{{ cur_user.username }}</h1>
+    <h1>Город:{% if cur_user.userdetails.country %}{{ cur_user.userdetails.country  }}
+        {% else %}<a href="#">Редактировать</a>
+        {% endif %}
+    </h1>
+    <h1>Номер  телефона:{% if cur_user.userdetails.cellphone %}{{ cur_user.userdetails.cellphone  }}
+        {% else %}<a href="#">Редактировать</a>
+        {% endif %}</h1>
+
+</div>
+
+{% endblock %}

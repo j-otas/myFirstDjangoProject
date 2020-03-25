@@ -8,14 +8,20 @@ import os
 
 
 class UserDetails(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    balance = models.DecimalField(max_digits=6, decimal_places=2)
-    cellphone = models.CharField(max_length=11)
-    country = models.CharField(max_length=45)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete= models.CASCADE)
+    photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
+    balance = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    cellphone = models.CharField(max_length=11, null=True, blank= True)
+    country = models.CharField(max_length=45, null=True, blank= True)
+
 
     def __str__(self):
         user = User.objects.get(id=self.user_id)
         return "id=" + str(self.pk) + " username=" + user.username + " email=" + user.email
+
+    class Meta:
+        verbose_name = 'Подробности пользователя'
+        verbose_name_plural = 'Подробности пользователя'
 
 class Product(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

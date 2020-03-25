@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "auction/auction_base.html" %}
+{% load static %}
+{% load poll_extras %}
 
-</body>
-</html>
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/auction_list.css' %}"
+{% endblock %}
+
+<!--Используется selected_auction-->
+{% block content %}
+<h2>Сейчас: {% now "d F" %}</h2>
+    <h1>Баланс: {{ balance }}</h1>
+    <div class="auction_block jumbotron">
+
+        <div class = "auction_title"><a href="">
+            <h2 class="display-4">{{ selected_auction.product.title }}</h2>
+        </a></div>
+
+        <div class = "auction_description my-4">
+            <p>{{ selected_auction.product.description }}</p>
+        </div>
+        <hr class="my-4">
+        <div class="left_time ">
+            {% if selected_auction.time_ending|delta_time == None %}
+                <p>Аукцион завершен</p>
+            {% else %}
+                <p>До конца аукциона:{{ selected_auction.time_ending|delta_time}}</p>
+            {% endif %}
+        </div>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Подробнее</a>
+        </p>
+
+    </div>
+
+{% endblock %}
