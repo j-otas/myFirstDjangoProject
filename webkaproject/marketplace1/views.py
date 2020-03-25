@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product
+from django.views.generic.base import View
+from .models import Product, UserDetails
 from .forms import ProductForm
 from django.shortcuts import redirect
 from django.utils import timezone
-
+from django.views.generic import CreateView, View, TemplateView
+from django.urls import reverse_lazy
+from decimal import *
 
 def product_list(request):
     products = Product.objects.filter(published_date__lte=timezone.now()).order_by("published_date")
@@ -27,6 +30,30 @@ def product_new(request):
     else:
         form = ProductForm()
         return render(request, 'marketplace/product_new.html', {'form': form})
+
+
+class Personal (View):
+    def get(self, request, *args, **kwargs):
+        cur_user = self.request.user
+        if cur_user.is_authenticated:
+            return render(self.request, 'personal/personal_main.html', {'cur_user': cur_user})
+
+
+class BalanceRefill (TemplateView):
+    template_name = 'marketplace/refill.html'
+
+    def post(self, request, *args, **kwargs):
+        cur_user = UserDetails.objects.get(user = request.user)
+        money = Decimal(request.POST['count_money'])
+        cur_user.balance += money
+
+        cur_user.save()
+        return render(request, 'marketplace/refill.html')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
 
 
 def product_edit(request, pk):

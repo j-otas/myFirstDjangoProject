@@ -1,4 +1,5 @@
 {% extends 'authorization/auth_base.html' %}
+<<<<<<< HEAD
 
 {% block content %}
 <head>
@@ -13,6 +14,43 @@
             {{ form }}
             <button class="btn btn-success mt-4" type = 'submit'>Отправить</button>
         </form>
+=======
+{% load static %}
+
+
+{% block css %}
+<style>
+    .container_content{
+        background-image: linear-gradient(180deg, #009efd 0%, #2af598 100%);
+    }
+</style>
+    <link rel="stylesheet" href="{% static 'css/reg_page.css' %}">
+{% endblock %}
+
+
+{% block title %}
+<title>Регистрация</title>
+{% endblock %}
+
+
+{% block content %}
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+<div class ='logo'>
+    <img src="{% static 'img/templogo.png' %}">
+</div>
+
+<form class = 'auth_form' method="POST"> {% csrf_token %}
+
+    <span class = 'login_title'>Регистрация</span>
+
+    {{ reg_form }}
+
+    {{ detail_user_form }}
+
+    <div class="button_submit_div">
+        <button class="btn btn-success" type = 'submit'>Отправить</button>
+>>>>>>> f881494... Added default auction page, refill balance page, personal page, user details
     </div>
 </body>
 

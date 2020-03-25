@@ -1,0 +1,71 @@
+{% extends "auction/auction_base.html" %}
+{% load static %}
+{% load poll_extras %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/auction_list.css' %}"
+{% endblock %}
+
+
+{% block content %}
+<script>
+    var audioBuffer = null;
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    var audioContext = null;
+    var source;
+
+    function play(url) {
+        if (audioContext == null) {
+            audioContext = new AudioContext();
+        }
+        var request = new XMLHttpRequest();
+        if (source) {
+            try {
+                source.stop();
+            } catch (err) {}
+        }
+        source = audioContext.createBufferSource();
+        source.connect(audioContext.destination);
+        request.open('GET', url, true);
+        request.responseType = 'arraybuffer';
+        request.onload = function() {
+            audioContext.decodeAudioData(request.response, function(buffer) {
+                source.buffer = buffer;
+                source.start(0);
+            });
+        }
+        request.send();
+    }
+</script>
+
+<h1 >Список аукционов</h1>
+<h2>Сейчас: {% now "d F" %}</h2>
+
+{% for auction in auction_list %}
+    <div class="auction_block jumbotron">
+
+        <div class = "auction_title"><a href="">
+            <h2 class="display-4">{{ auction.product.title }}</h2>
+        </a></div>
+
+        <div class = "auction_description my-4">
+            <p>{{ auction.product.description }}</p>
+        </div>
+        <hr class="my-4">
+        <div class="left_time ">
+            {% if auction.time_ending|delta_time == None %}
+                <p>Аукцион завершен</p>
+            {% else %}
+                <p>До конца аукциона:{{ auction.time_ending|delta_time}}</p>
+            {% endif %}
+        </div>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="{% url 'auction:auction_detail' pk=auction.pk %}" role="button">Подробнее</a>
+        </p>
+
+    </div>
+{% endfor %}
+
+
+<div style="height:100px" class="small-button" onmousedown=" play( '/static/sounds/stonks.mp3' ) "></div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'marketplace/marketplace_main_page_base.html' %}
+{% load static %}
+
+{% block content %}
+<div>
+    <h2>Логин: {{ user.username }}</h2>
+    <h2>Баланс: {{ user.userdetails.balance }}</h2>
+    <br>
+    <h3>Пополнение</h3>
+
+    <form action="{% url 'marketplace1:refill_page' %}" method="post">
+        {% csrf_token %}
+        <input type="number" name="count_money" min="1" max="1000" >₽
+        <br>
+        <br>
+        <input type="submit" value="Пополнить">
+    </form>
+
+</div>
+{% endblock %}
