@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="ru">
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -41,7 +41,7 @@
             <div class="col-6">
                 <form action="{% url 'marketplace1:search_results' %}", method = "GET">
                     <input name = "q" type="text" placeholder="Поиск по объялениям">
-                    <button type="button" name="button">Найти</button>
+                    <button type="submit" name="button">Найти</button>
                 </form>
                 <p>Баланс:{{ user.userdetails.balance }}</p>
             </div>
