@@ -4,8 +4,9 @@ from .models import Product, UserDetails
 from .forms import ProductForm
 from django.shortcuts import redirect
 from django.utils import timezone
-from django.views.generic import CreateView, View, TemplateView
+from django.views.generic import CreateView, View, TemplateView, ListView
 from django.urls import reverse_lazy
+from django.db.models import Q
 from decimal import *
 
 def product_list(request):
@@ -57,11 +58,11 @@ class BalanceRefill (TemplateView):
     template_name = 'marketplace/refill.html'
 
     def post(self, request, *args, **kwargs):
-        cur_user = UserDetails.objects.get(user = request.user)
+        cur_user_details = UserDetails.objects.get(id = request.user.id)
         money = Decimal(request.POST['count_money'])
-        cur_user.balance += money
+        cur_user_details.balance += money
 
-        cur_user.save()
+        cur_user_details.save()
         return render(request, 'marketplace/refill.html')
 
     def get_context_data(self, **kwargs):
@@ -108,3 +109,15 @@ def product_edit(request, pk):
     else:
         form = ProductForm(instance=product)
     return render(request, 'marketplace/product_edit.html', {'form': form})
+
+
+class SearchResultsView(ListView):
+    model = Product
+    template_name = 'marketplace/product_search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        product_list = Product.objects.filter(
+            Q(title__icontains=query)
+        )
+        return product_list

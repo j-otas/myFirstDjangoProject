@@ -30,7 +30,7 @@
         <div class="row">
             <div class="col-1">
                 <div class="logo">
-                    LOGO
+                    <a href= "{%url 'marketplace1:product_list' %}">LOGO</a>
                 </div>
             </div>
             <div class="col-2">
@@ -39,8 +39,8 @@
                 </div>
             </div>
             <div class="col-6">
-                <form action="#">
-                    <input type="text" placeholder="Поиск по объялениям">
+                <form action="{% url 'marketplace1:search_results' %}", method = "GET">
+                    <input name = "q" type="text" placeholder="Поиск по объялениям">
                     <button type="button" name="button">Найти</button>
                 </form>
                 <p>Баланс:{{ user.userdetails.balance }}</p>

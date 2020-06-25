@@ -11,5 +11,6 @@ urlpatterns = [
     path('product/<int:pk>/edit', views.product_edit, name='product_edit'),
     path('personal', views.Personal.as_view(), name='personal_page'),
     path('refill', views.BalanceRefill.as_view(), name='refill_page'),
+    path('search', views.SearchResultsView.as_view(), name='search_results'),
 
 ]

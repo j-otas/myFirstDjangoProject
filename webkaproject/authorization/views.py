@@ -18,9 +18,11 @@ def RegisterUserView(request):
             new_user = reg_form.save(commit=False)
             username, password = reg_form.cleaned_data.get('username'), reg_form.cleaned_data.get('password')
             new_user.set_password(password)
-
             new_user.save()
 
+            detail_for_new_user = detail_user_form.save(commit=False)
+            detail_for_new_user.user = new_user
+            detail_for_new_user.save()
             auth_user = authenticate(username=username, password=password)
             login(request, auth_user)
 
