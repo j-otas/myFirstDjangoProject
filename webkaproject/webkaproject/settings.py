@@ -79,11 +79,11 @@ WSGI_APPLICATION = 'webkaproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'jotas$marketplace',
-        'USER': 'jotas',
-        'PASSWORD': '1q2w3e4r1q2w3e4r',
-        'HOST': 'jotas.mysql.pythonanywhere-services.com',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'USER': 'jotas',
+        #'PASSWORD': '1q2w3e4r1q2w3e4r',
+        #'HOST': 'jotas.mysql.pythonanywhere-services.com',
 
     }
 }
