@@ -2,4 +2,5 @@ requests
 Django
 mysqlclient
 Pillow
-django-phonenumber-field==5.0.0
+django-phonenumber-field
+phonenumber
