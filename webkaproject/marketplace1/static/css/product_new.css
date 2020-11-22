@@ -29,7 +29,9 @@
     border-radius: 25px;
     padding: 14px 30px 0 68px;
 }
-
+.cbtn-danger{
+display: contents;
+}
 .product h1{
     margin-bottom: 50px;
 }

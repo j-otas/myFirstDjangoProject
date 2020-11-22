@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Auction
-from marketplace1.models import UserDetails
+from account.models import Account
 from django.views.generic import TemplateView, ListView, DetailView
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -23,7 +23,7 @@ class AuctionDetailView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)  # get the default context data
         user = get_object_or_404(User, id=self.request.user.id)
-        userDetails = get_object_or_404(UserDetails, user_id=user.id)
+        account = get_object_or_404(Account, user_id=user.id)
         context['selected_auction'] = Auction.objects.get(pk= self.kwargs['pk'])  # add extra field to the context
-        context['balance'] = userDetails.balance
+        # context['balance'] = userDetails.balance
         return context

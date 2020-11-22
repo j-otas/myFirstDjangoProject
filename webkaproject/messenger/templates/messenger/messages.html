@@ -1,0 +1,39 @@
+{% extends 'marketplace/marketplace_main_page_base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container content">
+        <div class="chat_block_wrapper">
+            <div class="dialog_title_wrapper flex-column">
+                <a href="{% url 'messenger:dialog_list' %}" class="back_to_dialogs">Вернуться к диалогам</a>
+                <div class="dialog_name">
+                        {% for member in chat.members.all %}
+                            {% if member.pk != user.pk %}
+                                Диалог с пользователелем
+                                <a href="{% url 'marketplace1:personal_page' member.pk %}">{{ member.first_name }}</a>
+                            {% endif %}
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="chat_block" id="chat_block">
+                <div class="messages_block">
+                    {% include 'messenger/message_dialog.html'%}
+                </div>
+                <div class="chat_form_wrapper">
+                    <form method="post" class="form-inline">
+                        {% csrf_token %}
+                        <input name="message" class="form-control" placeholder="Ваше сообщение..." autofocus>
+                        <input name="chat_pk" value="{{ chat.pk }}" type="hidden">
+                        <button type="submit" class="btn btn-primary mb-2">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var block = document.getElementById("chat_block");
+        block.scrollTop = 9999;
+    </script>
+    <script src="{% static 'js/messenges_update.js' %}"></script>
+{% endblock %}

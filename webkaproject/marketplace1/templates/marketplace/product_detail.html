@@ -1,16 +1,48 @@
-{% extends 'marketplace/base.html' %}
-
+{% extends 'marketplace/marketplace_main_page_base.html' %}
+{% load static %}
 {% block content %}
-<div class = "product">
-    <h1>{{ product.title }}</h1>
-    <p>{{ product.description|linebreaksbr }}</p>
-    {% if user.is_authenticated %}
-    <a class="btn btn-default" href="{% url 'marketplace1:product_edit' pk=product.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-    {% endif %}
-    {% if product.published_date %}
-            <div class="date">
-                {{ product.published_date }}
+<div class="detail_foundation">
+    <div class = "detail_product">
+        <div class = "detail_category">
+            <h7>Категория:/</h7>
+            <a href = "{% url 'marketplace1:search_results'%}?category={{product.category.pk}}">
+                <h7>{{product.category}}</h7>
+            </a>
+        </div>
+        <div class ="detail_title">
+            <h1>{{ product.title }}</h1>
+        </div>
+        <div class = "detail_img">
+            {% if product.image %}
+                <img src = {{ product.image.url }}>
+            {% else %}
+                <img src ="{% static 'img/no_image.png' %}">
+            {% endif %}
+        </div>
+            <div class="detail_description">
+                <hr style="margin-bottom:0px;">
+                <h3>Описание:</h3>
+                <p>{{ product.description|linebreaksbr }}</p>
             </div>
-    {% endif %}
+            <hr style="margin-bottom:0px;">
+            {% if product.published_date %}
+                <div class="date">
+
+                    <p>Размещено: {{ product.published_date }}</p>
+                </div>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <a class="btn btn-warning" href="{% url 'marketplace1:product_edit' pk=product.pk %}"><span class="glyphicon glyphicon-pencil">Редактировать</span></a>
+            {% endif %}
+    </div>
+
+    <div class = "contact_block">
+        <h1>{{ product.cost }}₽</h1>
+        <h3>Связаться с продавцом:</h3>
+        <a href="{% url 'marketplace1:personal_page' pk=product.author.pk %}"><h4>{{product.author.first_name}} {{product.author.last_name}}</h4></a>
+        <h4>Номер телефона:{{product.author.cellphone}}</h4>
+        <button class="btn btn-primary">Написать</button>
+    </div>
 </div>
 {% endblock %}

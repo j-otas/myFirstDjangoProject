@@ -1,9 +1,16 @@
 from django.contrib import admin
 from .models import Product
-from .models import UserDetails
+from .models import Category, Product
 
-class UserDetailsAdmin(admin.ModelAdmin):
-    list_display = ['user_id', 'balance', 'cellphone', 'photo']
 
-admin.site.register(Product)
-admin.site.register(UserDetails, UserDetailsAdmin )
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name']
+admin.site.register(Category, CategoryAdmin)
+
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['title', 'cost', 'is_active', 'published_date']
+    list_filter = ['is_active', 'published_date']
+    list_editable = ['cost', 'is_active']
+admin.site.register(Product, ProductAdmin)

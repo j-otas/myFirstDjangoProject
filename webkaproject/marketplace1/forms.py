@@ -7,10 +7,15 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('title', 'description', 'cost', 'image', )
+        fields = ('category', 'title', 'description', 'cost', 'image', )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields['category'].widget.attrs['class'] = 'input_field'
+        self.fields['category'].empty_label = 'Выберите категорию товара'
+        self.fields['category'].widget.attrs['placeholder'] = 'Категория'
+        self.fields['category'].label = ''
 
         self.fields['title'].widget.attrs['class'] = 'input_field'
         self.fields['title'].widget.attrs['placeholder'] = 'Название'
@@ -23,7 +28,6 @@ class ProductForm(forms.ModelForm):
         self.fields['cost'].widget.attrs['class'] = 'input_field'
         self.fields['cost'].widget.attrs['placeholder'] = 'Цена'
         self.fields['cost'].label = ''
-
 
         # self.fields['username'].label = ''
 

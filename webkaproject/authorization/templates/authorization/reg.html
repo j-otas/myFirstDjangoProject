@@ -25,13 +25,19 @@
     <img src="{% static 'img/templogo.png' %}">
 </div>
 
-<form class = 'auth_form' method="POST"> {% csrf_token %}
+<form class = 'auth_form' method="POST">
 
     <span class = 'login_title'>Регистрация</span>
+    {% csrf_token %}
+    {{ reg_form.as_p }}
+<!--    {% for field in reg_form %}-->
+<!--        {{field.label_tag}}-->
+<!--        {{field}}-->
 
-    {{ reg_form }}
+<!--        {% if field.help_text %}-->
 
-    {{ detail_user_form }}
+<!--        {% endif %}-->
+<!--    {% endfor %}-->
 
     <div class="button_submit_div">
         <button class="btn btn-success" type = 'submit'>Отправить</button>

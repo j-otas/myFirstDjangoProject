@@ -5,32 +5,10 @@ from django.views.generic import CreateView, View
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login
-from marketplace1.models import UserDetails
-from .forms import AuthUserForm, RegisterUserForm
-from authorization.forms import UserDetailForm
+from .forms import AuthUserForm
 from webkaproject import settings
+from account.forms import RegistrationForm
 
-def RegisterUserView(request):
-    if request.method =='POST':
-        reg_form = RegisterUserForm(request.POST)
-        detail_user_form = UserDetailForm(request.POST)
-        if reg_form.is_valid():
-            new_user = reg_form.save(commit=False)
-            username, password = reg_form.cleaned_data.get('username'), reg_form.cleaned_data.get('password')
-            new_user.set_password(password)
-            new_user.save()
-
-            detail_for_new_user = detail_user_form.save(commit=False)
-            detail_for_new_user.user = new_user
-            detail_for_new_user.save()
-            auth_user = authenticate(username=username, password=password)
-            login(request, auth_user)
-
-            return render(request, 'marketplace/content.html', {'auth_user': auth_user} )
-    else:
-        reg_form = RegisterUserForm()
-        detail_user_form = UserDetailForm()
-    return render(request, 'authorization/reg.html', {'reg_form': reg_form, 'detail_user_form': detail_user_form})
 
 
 class AuthUserView(LoginView):

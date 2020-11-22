@@ -3,15 +3,49 @@
 
 {% block content %}
 <div class = "personal_data">
+    {% if cur_user %}
     <h1>Логин:{{ cur_user.username }}</h1>
-    <h1>Город:{% if cur_user.userdetails.country %}{{ cur_user.userdetails.country  }}
+    <h1>Город:{% if cur_user.country %}{{ cur_user.country  }}
         {% else %}<a href="#">Редактировать</a>
         {% endif %}
     </h1>
-    <h1>Номер  телефона:{% if cur_user.userdetails.cellphone %}{{ cur_user.userdetails.cellphone  }}
+    <h1>Номер  телефона:{% if cur_user.cellphone %}{{ cur_user.cellphone  }}
         {% else %}<a href="#">Редактировать</a>
         {% endif %}</h1>
+    {% else %}
+    <h1>Пользователь не найден</h1>
+    {% endif %}
+</div>
 
+<div class="row">
+    <div>
+        <div class="content">
+            <h2 style="    margin-top: 55px;">Все объявления пользователя</h2>
+
+                <div class="product_blocks-block">
+                {% for product in users_products %}
+                    <a href="{% url 'marketplace1:product_detail' pk=product.pk %}">
+                        <div class="product_card">
+
+                            <div class="product_card-logo">
+                                {% if product.image %}<img src ="{{ product.image.url }}">
+                                {% else %} <img src ="{% static 'img/no_image.png' %}">
+                                {% endif %}
+                            </div>
+                            <div class ="product_title_div">
+                                <span class="product_card-title">{{product.title}}</span>
+                            </div>
+                            <div>
+                                <span class="product_card-price">{{product.cost}}₽</span>
+                            </div>
+                    </a>
+                        </div>
+                    </a>
+                {% endfor %}
+                </div>
+
+        </div>
+    </div>
 </div>
 
 {% endblock %}

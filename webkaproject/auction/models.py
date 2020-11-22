@@ -1,8 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from marketplace1.models import Product
 from django.utils import timezone
+from account.models import Account
 
+User = get_user_model()
 
 class Auction(models.Model):
     organizer = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -1,37 +1,35 @@
 from django.conf import settings
 
-from django.contrib.auth.models import User
+
 from django.db import models
 from django.utils import timezone
 from django.dispatch import receiver
 import os
-from django.dispatch import receiver
-import os
 
-
-class UserDetails(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete= models.CASCADE)
-    photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
-    balance = models.DecimalField(max_digits=6, decimal_places=2, default=0)
-    cellphone = models.CharField(max_length=11, null=True, blank= True)
-    country = models.CharField(max_length=45, null=True, blank= True)
-
-    def __str__(self):
-        user = User.objects.get(id=self.user_id)
-        return "id=" + str(self.pk) + " username=" + user.username + " email=" + user.email
+class Category(models.Model):
+    name = models.CharField(max_length=200, db_index=True)
 
     class Meta:
-        verbose_name = 'Подробности пользователя'
-        verbose_name_plural = 'Подробности пользователя'
+        ordering = ('name',)
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    category = models.ForeignKey(Category, related_name = "products", on_delete = models.CASCADE)
+
     title = models.CharField(max_length=200, verbose_name="Название")
     description = models.TextField(verbose_name="Описание")
     published_date = models.DateTimeField(blank=True, null=True)
     cost = models.fields.IntegerField(blank=False, null=True, verbose_name="Цена")
     image = models.ImageField(blank=True, null=True, verbose_name="Изображение", upload_to='product_images/')
+    is_active = models.BooleanField(default = False)
+
+
 
     def publish(self):
         self.published_date = timezone.now()
@@ -69,6 +67,8 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
 
     try:
         old_file = Product.objects.get(pk=instance.pk).image
+        if not old_file:
+            return False
     except Product.DoesNotExist:
         return False
 

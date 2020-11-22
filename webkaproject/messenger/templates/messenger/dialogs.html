@@ -1,0 +1,17 @@
+{% extends 'marketplace/marketplace_main_page_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container content">
+        <div class="dialogs_block">
+            <h2 class="text-center">Чаты</h2>
+            <h4>Ваши Чаты:</h4>
+            {% if chats.count == 0 %}
+                У вас еще нет созданных чатов
+            {% endif %}
+            <div class="chats_list">{% include 'messenger/chats_list.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

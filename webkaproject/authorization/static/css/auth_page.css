@@ -10,6 +10,14 @@ border: none;
 outline:none;
 margin-bottom: 10px;
 }
+.errorlist{
+    width:100%;
+    color:#ff8d8d;
+}
+
+.auth_form{
+    width: 45%;
+}
 
 .container_content{
 width: 100%;
