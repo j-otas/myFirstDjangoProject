@@ -1,4 +1,9 @@
-{% extends 'marketplace/base.html' %}
+{% extends 'marketplace/marketplace_main_page_base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/product_new.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class = "product">
@@ -6,7 +11,8 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save</button>
+        <button class = "btn btn-success" type="submit">Разместить</button>
+        <a class = "btn btn-danger" href="{%url 'marketplace1:product_detail' pk=product_pk%}">Отмена</a>
     </form>
 </div>
 {% endblock %}

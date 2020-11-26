@@ -3,7 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from account.models import Account
-
+from marketplace1.models import Product
 class ChatManager(models.Manager):
     def unreaded(self, user=None):
         qs = self.get_queryset().exclude(last_message__isnull=True).filter(last_message__is_read=False)
@@ -11,14 +11,7 @@ class ChatManager(models.Manager):
 
 
 class Chat(models.Model):
-    DIALOG = 'D'
-    CHAT = 'C'
-    CHAT_TYPE_CHOICES = (
-        (DIALOG, 'Dialog'),
-        (CHAT, 'Chat')
-    )
-
-    type = models.CharField(max_length=1, choices=CHAT_TYPE_CHOICES, default=DIALOG, verbose_name='Тип')
+    product = models.ForeignKey(Product, verbose_name="Товар", on_delete=models.CASCADE)
     members = models.ManyToManyField(Account, verbose_name="Участник", blank=False)
     title = models.CharField(max_length=50, blank=False, verbose_name='Название')
     last_message = models.ForeignKey('Message', related_name='last_message', null=True, blank=True,
@@ -32,7 +25,7 @@ class Chat(models.Model):
         ordering = ('-last_message',)
 
     def __str__(self):
-        return f'{self.type} - {self.members.all()}'
+        return str(self.members.all())
 
 
 class Message(models.Model):

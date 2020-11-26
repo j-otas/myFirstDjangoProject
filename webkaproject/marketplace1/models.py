@@ -5,7 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.dispatch import receiver
 import os
-
+from webkaproject.settings import STATIC_URL,STATIC_ROOT
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True)
 
@@ -26,7 +26,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name="Описание")
     published_date = models.DateTimeField(blank=True, null=True)
     cost = models.fields.IntegerField(blank=False, null=True, verbose_name="Цена")
-    image = models.ImageField(blank=True, null=True, verbose_name="Изображение", upload_to='product_images/')
+    image = models.ImageField(blank=True, null=True, verbose_name="Изображение", upload_to='product_images/', default="no_image.png")
     is_active = models.BooleanField(default = False)
 
 

@@ -3,22 +3,32 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-10">
+    <div>
         <div class="content">
-            <h2>Результаты поиска</h2>
-            <div class="product_blocks-block">
+            <h2 style="    margin-top: 55px;">Все объявления</h2>
+
+                <div class="product_blocks-block">
                 {% for product in product_list %}
-                <div class="product_card">
-                    <div class="product_card-logo">
-                        {% if product.image %}<img src ="{{ product.image.url }}">
-                        {% else %} <img src ="{% static 'img/no_image.png' %}">
-                        {% endif %}
-                    </div>
-                    <span class="product_card-price">{{product.cost}}₽</span>
-                    <span class="product_card-title">{{product.title}}</span>
-                </div>
+                    <a href="{% url 'marketplace1:product_detail' pk=product.pk %}">
+                        <div class="product_card">
+
+                            <div class="product_card-logo">
+                                {% if product.image %}<img src ="{{ product.image.url }}">
+                                {% else %} <img src ="{% static 'img/no_image.png' %}">
+                                {% endif %}
+                            </div>
+                            <div class ="product_title_div">
+                                <span class="product_card-title">{{product.title}}</span>
+                            </div>
+                            <div>
+                                <span class="product_card-price">{{product.cost}}₽</span>
+                            </div>
+                    </a>
+                        </div>
+                    </a>
                 {% endfor %}
-            </div>
+                </div>
+
         </div>
     </div>
 </div>

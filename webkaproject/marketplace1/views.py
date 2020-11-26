@@ -5,12 +5,12 @@ from account.models import Account
 from .forms import ProductForm
 from django.shortcuts import redirect
 from django.utils import timezone
-from django.views.generic import CreateView, View, TemplateView, ListView
+from django.views.generic import CreateView, View, TemplateView, ListView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
 from decimal import *
-from django.http import HttpResponse,HttpResponseRedirect
-
+from django.http import HttpResponse,HttpResponseRedirect,HttpResponseNotFound
+from django.templatetags.static import static
 
 categories = Category.objects.all()
 
@@ -40,26 +40,11 @@ class NewProductView(CreateView):
     #         return HttpResponseRedirect('/success/')
     # <view logic>
     def form_valid(self, form):
-
         new_product = form.save(commit=False)
         new_product.author = self.request.user
         new_product.published_date = timezone.now()
         new_product.save()
         return super().form_valid(form)
-
-# def product_new(request):
-#     if request.POST:
-#         form = ProductForm(request.POST)
-#         if form.is_valid():
-#             product = form.save(commit=False)
-#             product.author = request.user
-#             product.published_date = timezone.now()
-#             product.save()
-#             return redirect('marketplace1:product_detail', pk= product.pk)
-#     else:
-#         form = ProductForm()
-#         return render(request, 'marketplace/product_new.html', {'form': form})
-
 
 class Personal (View):
     def get(self, request, *args, **kwargs):
@@ -70,7 +55,7 @@ class Personal (View):
         cur_user = Account.objects.get(pk=account_pk)
         # if cur_user:
         users_products = Product.objects.filter(author=cur_user)
-        return render(self.request, 'personal/personal_main.html', {'cur_user': cur_user, 'users_products': users_products})
+        return render(self.request, 'personal/personal_main.html', {'cur_user': cur_user, 'users_products': users_products, 'categories': categories})
 
 class BalanceRefill (TemplateView):
     template_name = 'marketplace/refill.html'
@@ -88,7 +73,6 @@ class BalanceRefill (TemplateView):
 
         return context
 
-
 def product_edit(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == "POST":
@@ -102,7 +86,7 @@ def product_edit(request, pk):
 
     else:
         form = ProductForm(instance=product)
-    return render(request, 'marketplace/product_edit.html', {'form': form})
+    return render(request, 'marketplace/product_edit.html', {'form': form, 'product_pk':product.pk,'categories': categories})
 
 
 class SearchResultsView(ListView):
@@ -111,6 +95,7 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
+        print(query+"fdfdfdfefef")
         category = self.request.GET.get('category')
         if category == '-1' :
             product_list = Product.objects.filter(
@@ -123,3 +108,16 @@ class SearchResultsView(ListView):
                 Q(title__icontains=query) & Q(category_id=category))
 
         return product_list
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = categories
+        return context
+
+def delete_product(request, product_id):
+    try:
+        product = Product.objects.get(id=product_id)
+        product.delete()
+        return HttpResponseRedirect(reverse_lazy("marketplace1:product_list"))
+    except Product.DoesNotExist:
+        return HttpResponseNotFound("<h2>Person not found</h2>")

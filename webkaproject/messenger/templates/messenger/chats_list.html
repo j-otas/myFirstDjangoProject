@@ -1,23 +1,16 @@
 {% for chat in chats %}
-    <div class="friend_item">
-        <div class="friend_item_unfriend">
+    <div class="chat_item">
+        <div class="chat_item_button">
 <!--            <a href="{% url 'messenger:delete_chat' chat.pk %}" class="btn btn-danger">Удалить</a>-->
             <a href="{% url 'messenger:messages' chat.pk %}" class="btn btn-success mr-1">Открыть чат</a>
+             <a href="{% url 'messenger:delete_chat' chat.pk %}" class="btn btn-danger">Удалить чат</a>
         </div>
-        <div class="friend_item_title">
-            <div class="friend_item_title-username">
-<!--                {% if chat in unread_chats %}-->
-<!--                    <span class="text-danger"><i class="fa fa-envelope" aria-hidden="true"></i></span>-->
-<!--                {% else %}-->
-<!--                    <span class="text-success"><i class="fa fa-envelope" aria-hidden="true"></i></span>-->
-<!--                {% endif %}-->
-
-                {% for member in chat.members.all %}
-<!--                    {% if member.pk != user.pk %}-->
-                            {{ member.first_name }} {{ member.last_name }}
-<!--                    {% endif %}-->
-                {% endfor %}
+            <div class="chat_title">
+                <img class = "chat_image" src = '{{chat.product.image.url}}'>
+                <a href = "{% url 'marketplace1:personal_page' pk=chat.product.author.pk %}">
+                    <h5 style = 'margin: 0 0 0 0;'>{{chat.product.author.first_name}} {{chat.product.author.last_name}}</h5>
+                </a>
+                <h5>{{chat.product.title}}</h5>
             </div>
-        </div>
     </div>
 {% endfor %}

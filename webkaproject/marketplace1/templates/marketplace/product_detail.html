@@ -32,17 +32,30 @@
                 </div>
             {% endif %}
 
-            {% if user.is_authenticated %}
+            {% if user == product.author %}
                 <a class="btn btn-warning" href="{% url 'marketplace1:product_edit' pk=product.pk %}"><span class="glyphicon glyphicon-pencil">Редактировать</span></a>
             {% endif %}
     </div>
 
     <div class = "contact_block">
         <h1>{{ product.cost }}₽</h1>
-        <h3>Связаться с продавцом:</h3>
-        <a href="{% url 'marketplace1:personal_page' pk=product.author.pk %}"><h4>{{product.author.first_name}} {{product.author.last_name}}</h4></a>
-        <h4>Номер телефона:{{product.author.cellphone}}</h4>
-        <button class="btn btn-primary">Написать</button>
+        {% if not user.is_authenticated %}
+        <h4 style = 'color:#ff7a7a;'>Что бы связаться с продавцом, необходма <a style = 'color:#ff7a7a;' href="{% url 'authorization:auth_page' %}"><h4> авторизация </h4></a></h4>
+        {% elif user.is_authenticated %}
+            {% if product.author != user %}
+            <h3>Связаться с продавцом:</h3>
+            <a href="{% url 'marketplace1:personal_page' pk=product.author.pk %}"><h4>{{product.author.first_name}} {{product.author.last_name}}</h4></a>
+            <h4>Номер телефона:{{product.author.cellphone}}</h4>
+            <form action="{% url 'messenger:create_dialog' friend_id=product.author.pk product_id=product.id%}">
+                <button class="btn btn-primary" type="submit">Написать</button>
+            </form>
+            {% else %}
+            <form action="{% url 'marketplace1:delete_product' product_id=product.pk %}">
+                <button class="btn btn-danger" type="submit">Убрать с продажи</button>
+            </form>
+            {% endif %}
+        {% endif %}
     </div>
 </div>
+
 {% endblock %}

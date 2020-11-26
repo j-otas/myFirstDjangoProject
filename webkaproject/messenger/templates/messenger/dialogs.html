@@ -10,7 +10,8 @@
             {% if chats.count == 0 %}
                 У вас еще нет созданных чатов
             {% endif %}
-            <div class="chats_list">{% include 'messenger/chats_list.html' %}
+            <div class="chats_list">
+                {% include 'messenger/chats_list.html' %}
             </div>
         </div>
     </div>
