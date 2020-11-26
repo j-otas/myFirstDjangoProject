@@ -1,3 +1,5 @@
+pip3 install virtualenv
+virtualenv myvenv
 myvenv\Scripts\activate
 pip3 install -r requirements.txt
 cd webkaproject
