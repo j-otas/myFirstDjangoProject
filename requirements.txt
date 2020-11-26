@@ -1,6 +1,5 @@
 requests
 Django
-mysqlclient
 Pillow
 django-phonenumber-field
 phonenumber
