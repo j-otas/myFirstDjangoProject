@@ -8,25 +8,29 @@
             <h2 style="    margin-top: 55px;">Все объявления</h2>
 
                 <div class="product_blocks-block">
-                {% for product in product_list %}
-                    <a href="{% url 'marketplace1:product_detail' pk=product.pk %}">
-                        <div class="product_card">
+                {% if not product_list %}
+                    <h4>По вашему запросу ничего не найдено</h4>
+                {% else %}
+                    {% for product in product_list %}
+                        <a href="{% url 'marketplace1:product_detail' pk=product.pk %}">
+                            <div class="product_card">
 
-                            <div class="product_card-logo">
-                                {% if product.image %}<img src ="{{ product.image.url }}">
-                                {% else %} <img src ="{% static 'img/no_image.png' %}">
-                                {% endif %}
+                                <div class="product_card-logo">
+                                    {% if product.image %}<img src ="{{ product.image.url }}">
+                                    {% else %} <img src ="{% static 'img/no_image.png' %}">
+                                    {% endif %}
+                                </div>
+                                <div class ="product_title_div">
+                                    <span class="product_card-title">{{product.title}}</span>
+                                </div>
+                                <div>
+                                    <span class="product_card-price">{{product.cost}}₽</span>
+                                </div>
+                        </a>
                             </div>
-                            <div class ="product_title_div">
-                                <span class="product_card-title">{{product.title}}</span>
-                            </div>
-                            <div>
-                                <span class="product_card-price">{{product.cost}}₽</span>
-                            </div>
-                    </a>
-                        </div>
-                    </a>
-                {% endfor %}
+                        </a>
+                    {% endfor %}
+                {% endif %}
                 </div>
 
         </div>
