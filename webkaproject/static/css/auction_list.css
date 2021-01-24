@@ -1,0 +1,11 @@
+.auction_block jumbotron {
+    border-radius: 0.3rem;
+}
+.jumbotron {
+    padding: 3rem 4rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+.auction_description p{
+    font-size: 1.4rem;
+}
