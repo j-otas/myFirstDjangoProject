@@ -1,0 +1,75 @@
+{% extends 'marketplace/marketplace_main_page_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/admin_panel.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2 class="zagolovok">Администрирование</h2>
+
+<div class="card-deck mb-4 text-center">
+    <div class="card">
+        <div class="card-header">
+            Таблицы БД
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list_item">
+                <a href="/product/1/edit">Категории</a>
+            </li>
+            <li class="list-group-item list_item">
+                <a href="/product/1/edit">Пользователи</a>
+            </li>
+            <li class="list-group-item list_item">
+                <a href="/product/1/edit">Товары</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card" style="height: 139px">
+        <div class="card-header">
+            Модерирование
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list_item">
+                <a href="/product/1/edit">Товары</a>
+            </li>
+            <li class="list-group-item list_item">
+                <a href="/product/1/edit">Пользователи</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<table class="table table-hover table-dark">
+    <thead>
+    <tr>
+        <th scope="col">№</th>
+        <th scope="col">Имя</th>
+        <th scope="col">Фамилия</th>
+        <th scope="col">Username</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+    </tr>
+    <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+    </tr>
+    <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+    </tr>
+    </tbody>
+</table>
+
+{% endblock %}

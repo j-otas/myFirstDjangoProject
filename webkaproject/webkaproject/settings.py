@@ -37,17 +37,18 @@ AUTHENTICATION_BACKENDS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'messenger',
-    'account',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'marketplace1.apps.Marketplace1Config',
-    'authorization.apps.AuthorizationConfig',
-    'auction.apps.AuctionConfig'
+    'marketplace1',
+    'authorization',
+    'auction',
+    'messenger',
+    'account',
+    'admin_panel',
 ]
 
 MIDDLEWARE = [
