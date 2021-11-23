@@ -12,25 +12,27 @@
 <h2 class="zagolovok">Администрирование таблицы БД</h2>
 <h4 class="zagolovok">Таблица: {{ selected_model_name }}</h4>
 
+<div class="overflow-auto">
+    <table class="table table-hover table-dark">
+        <thead>
+        <tr>
+            {% for field in fields %}
+            <th scope="col">{{ field.name }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
 
-<table class="table table-hover table-dark">
-    <thead>
-    <tr>
-        {% for field in fields %}
-        <th scope="col">{{ field.name }}</th>
-        {% endfor %}
-    </tr>
-    </thead>
-    <tbody>
-
-    {% for obj in values_of_fields %}
+        {% for obj in values_of_fields %}
         <tr>
             {% for value in obj %}
             <td>{{ value }}</td>
             {% endfor %}
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 {% endblock %}

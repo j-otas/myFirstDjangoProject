@@ -32,3 +32,13 @@ li.list-group-item > a {
     display: block;
     text-decoration: none;
 }
+
+table {
+    overflow: auto;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
