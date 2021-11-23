@@ -6,6 +6,7 @@ register = template.Library()
 import datetime
 
 
+
 @register.filter(name = "delta_time")
 def deltaTime(value):
     time = value-timezone.now()

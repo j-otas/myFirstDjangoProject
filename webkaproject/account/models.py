@@ -61,6 +61,11 @@ class Account(AbstractBaseUser):
 
     objects = MyAccountManager()
 
+    class Meta:
+        ordering = ('first_name', 'last_name')
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
     def __str__(self):
         return self.first_name + ', ' + self.last_name + ', ' + self.cellphone.as_e164
 

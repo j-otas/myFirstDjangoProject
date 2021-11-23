@@ -15,15 +15,12 @@
             Таблицы БД
         </div>
         <ul class="list-group list-group-flush">
+            {% for table_name in table_names %}
             <li class="list-group-item list_item">
-                <a href="/product/1/edit">Категории</a>
+                <a href="{% url 'admin_panel:admin_current_table' pk=counter.count %}">{{ table_name }}</a>
             </li>
-            <li class="list-group-item list_item">
-                <a href="/product/1/edit">Пользователи</a>
-            </li>
-            <li class="list-group-item list_item">
-                <a href="/product/1/edit">Товары</a>
-            </li>
+            {{ counter.increment }}
+            {% endfor %}
         </ul>
     </div>
     <div class="card" style="height: 139px">
