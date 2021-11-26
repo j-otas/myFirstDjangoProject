@@ -24,21 +24,51 @@ a:link, a:visited, a:hover, a:active, a:focus {
 .list_item {
     list-style-type: none;
 cursor: pointer;
-    padding: 12px;
 }
 
 
 li.list-group-item > a {
     display: block;
     text-decoration: none;
+    padding: 12px;
+}
+li {
+    padding: 0px !important;
 }
 
-table {
-    overflow: auto;
+.functions-table{
+    position: sticky;
+    left: 0;
+    border: 1px solid #dbdbdb;
+    width: 210px;
+}
+
+table.ul {
+    max-height: 5px;
+}
+
+table{
+    margin-bottom: 0 !important;
     position: relative;
-    display: inline-block;
     vertical-align: top;
-    max-width: 100%;
+    max-width: 100% !important;
     overflow-x: auto;
     white-space: nowrap;
+}
+
+.table_block{
+    overflow: auto;
+}
+td.functions-table {
+    background: #212529;
+    color: #262626;
+    height: 106px;
+    padding: 0 5px;
+}
+th.functions-table {
+    background-color: #212529;
+}
+.functions-table{
+    border-left-width: 0px !important;
+    border-right-width: 0px !important;
 }

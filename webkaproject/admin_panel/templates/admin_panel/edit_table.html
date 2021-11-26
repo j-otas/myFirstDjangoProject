@@ -1,19 +1,12 @@
 {% extends 'marketplace/marketplace_main_page_base.html' %}
 {% load static %}
-
+{% block title %}<title>Редактирование таблицы </title>{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/admin_panel.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container-content">
-    <a class="list-group-item list-group-item-action bg-info text-dark" href="{% url 'admin_panel:admin_main' %}">Назад</a>
-    <h2 class="zagolovok">Администрирование таблицы БД</h2>
-</div>
-
-<h4 class="zagolovok">Таблица: {{ selected_model_name }}</h4>
-
 <div class="table_block">
     <table class="table table-bordered table-hover table-dark">
         <thead>
@@ -27,12 +20,9 @@
         </tr>
         </thead>
         <tbody>
-
-        {% for obj in values_of_fields %}
         <tr>
             <td class="functions-table">
 
-                <a class="list-group-item list-group-item-action bg-warning text-dark" href="{% url 'admin_panel:edit_table' pk=tabnum idd=obj.0 %}">Редактировать</a>
                 <a class="list-group-item list-group-item-action bg-danger text-dark" href="/product/1/edit">Удалить</a>
             </td>
 
@@ -40,12 +30,15 @@
             <td>{{ value }}</td>
             {% endfor %}
         </tr>
-        {% endfor %}
         </tbody>
     </table>
 </div>
 
-
-
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-success" type="submit">Разместить</button>
+    <a class="btn btn-danger" href="{%url 'admin_panel:admin_current_table' pk=tabnum%}">Отмена</a>
+</form>
 
 {% endblock %}

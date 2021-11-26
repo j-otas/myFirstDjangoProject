@@ -16,9 +16,7 @@
         </div>
         <ul class="list-group list-group-flush">
             {% for table_name in table_names %}
-            <li class="list-group-item list_item">
-                <a href="{% url 'admin_panel:admin_current_table' pk=counter.count %}">{{ table_name }}</a>
-            </li>
+            <a class="list-group-item list-group-item-action" href="{% url 'admin_panel:admin_current_table' pk=counter.count %}">{{ table_name }}</a>
             {{ counter.increment }}
             {% endfor %}
         </ul>
@@ -28,12 +26,8 @@
             Модерирование
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item list_item">
-                <a href="/product/1/edit">Товары</a>
-            </li>
-            <li class="list-group-item list_item">
-                <a href="/product/1/edit">Пользователи</a>
-            </li>
+                <a class="list-group-item list-group-item-action" href="/product/1/edit">Товары</a>
+                <a class="list-group-item list-group-item-action" href="/product/1/edit">Пользователи</a>
         </ul>
     </div>
 </div>

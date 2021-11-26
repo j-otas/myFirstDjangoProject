@@ -95,7 +95,7 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
-        print(query+"fdfdfdfefef")
+        #print(query+"fdfdfdfefef")
         category = self.request.GET.get('category')
         if category == '-1' :
             product_list = Product.objects.filter(
