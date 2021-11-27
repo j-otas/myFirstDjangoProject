@@ -7,34 +7,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="table_block">
-    <table class="table table-bordered table-hover table-dark">
-        <thead>
-        <tr>
-            <th class="functions-table" scope="col">
-                Действия
-            </th>
-            {% for field in fields %}
-            <th scope="col">{{ field.name }}</th>
-            {% endfor %}
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td class="functions-table">
 
-                <a class="list-group-item list-group-item-action bg-danger text-dark" href="/product/1/edit">Удалить</a>
-            </td>
+<form method="POST" class="zagolovok">
+    <h4 class="zagolovok">{{ selected_model_name }} - {{ obj }}</h4>
 
-            {% for value in obj %}
-            <td>{{ value }}</td>
-            {% endfor %}
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-success" type="submit">Разместить</button>
