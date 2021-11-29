@@ -19,6 +19,11 @@ class Counter:
         return ''
 from django.forms import ModelForm
 from django.forms.models import model_to_dict
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+
+
+
 def get_model(num):
     mods = apps.get_models()  # все модели
     model_names = []
@@ -52,9 +57,8 @@ def main_admin_panel(request):
 
     return render(request, 'admin_panel/main_admin_list_page.html', {'table_names': model_names, 'counter': counter})
 
-
 def admin_current_table(request, pk):
-
+    context = {}
     selected_model = get_model(pk) # выбранная пользователем модель(тип данных)
 
     selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
@@ -63,17 +67,41 @@ def admin_current_table(request, pk):
 
     values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields) #значения объекта
 
-    return render(request, 'admin_panel/admin_table.html', {'selected_model_name': selected_model._meta.verbose_name,
-                                                            'selected_model_objects': selected_model_objects,
-                                                            'fields': selected_model_fields,
-                                                            'values_of_fields': values_of_fields,
-                                                            'tabnum': int(pk)}, )
+    field_names = []  # имена полей(столбцов таблицы)
+
+    if request.method == "POST":
+        obj_id = request.POST.get('object_id')
+
+        for field in selected_model_fields:  # получаем список имён полей для генерации формы
+            if field.editable:
+                field_names.append(field.name)
+
+        temp_form = modelform_factory(selected_model,
+                                      fields=field_names)  # Форма для выбранного объекта, может используется для создания новой формы, поэтому temp
+        obj = get_object_or_404(selected_model, pk=obj_id)  # получаем объект выбранной модели
+        form = temp_form(instance=obj)
+        modal_context = {
+            'form': form,
+            'user': request.user,
+            'obj' : obj,
+        }
+        result = render_to_string('includes/modal_change_object.html', modal_context)
+        return JsonResponse({'result': result})
+
+    context['selected_model_name'] = selected_model._meta.verbose_name
+    context['selected_model_objects'] = selected_model_objects
+    context['fields'] = selected_model_fields
+    context['values_of_fields'] = values_of_fields
+    context['tabnum'] = int(pk)
+
+    return render(request, 'admin_panel/admin_table.html', context, )
 
 
 def edit_table(request, pk, idd):
+    print("я вызвался")
     selected_model = get_model(pk)  # выбранная пользователем модель(тип данных)
     selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
-    field_names = [] #имена полей(столбцов таблицы)
+
     obj = get_object_or_404(selected_model, pk=idd) # получаем объект выбранной модели
     for field in selected_model_fields: # получаем список имён полей для генерации формы
         if field.editable:
@@ -82,6 +110,7 @@ def edit_table(request, pk, idd):
     temp_form = modelform_factory(selected_model, fields=field_names)#Форма для выбранного объекта, может используется для создания новой формы, поэтому temp
     form = temp_form(instance=obj)
     if request.method == "POST":
+        print("edefewfwefweg AUE")
         form = temp_form(request.POST, instance=obj)
         if form.is_valid():
             obj = form.save(commit=False)

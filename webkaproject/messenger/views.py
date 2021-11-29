@@ -98,9 +98,10 @@ def get_messages(request, chat_id):
 
 def get_new_mes_count(request):
     user = request.user
-    new_mess_count = user.chat_set.unreaded(user=user).count()
-    if new_mess_count == 0:
-        return JsonResponse({'result': False})
+    new_mess_count = 0
+    # new_mess_count = user.chat_set.unreaded(user=user).count()
+    # if new_mess_count == 0:
+    #     return JsonResponse({'result': False})
 
     return JsonResponse({'result': f'({new_mess_count})'})
 
