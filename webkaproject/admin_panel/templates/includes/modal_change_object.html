@@ -34,6 +34,7 @@
         dataType: "html",
 
         success: function (response) {
+            $("#table_block").html(JSON.parse(response)['result'])
             $('#exampleModal').modal("hide")
         }
     });
