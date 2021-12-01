@@ -133,6 +133,7 @@ def accept_change_data(request):
         context['fields'] = selected_model_fields
         context['values_of_fields'] = values_of_fields
         context['tabnum'] = int(request.POST.get('tab_id'))
+        context['script_path'] = "/static/js/admin_actions.js"
         result = render_to_string('includes/table_objects.html', context)
         return JsonResponse({'result': result})
 

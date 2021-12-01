@@ -103,7 +103,7 @@ def get_new_mes_count(request):
     # if new_mess_count == 0:
     #     return JsonResponse({'result': False})
 
-    return JsonResponse({'result': f'({new_mess_count})'})
+    return ""
 
 
 def update_chats_list(request):

@@ -17,15 +17,11 @@
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" data-url="{% url 'admin_panel:accept_data' %}"
+                <button id="acceptButton" type="button" data-url="{% url 'admin_panel:accept_data' %}"
                             name="accept_data" class="btn btn-primary">Принять
                     </button>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    $('button[name="accept_data"]').on('click', function (event) {
+                <script>$("#acceptButton").on('click', function (event) {
+    alert("Aue accept");
     let $form = $('#edit_form');
     $.ajax({
         url: '/admin1/accept_data',
@@ -40,3 +36,8 @@
     });
 });
 </script>
+            </div>
+        </div>
+    </div>
+</div>
+
