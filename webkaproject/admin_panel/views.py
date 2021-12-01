@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.apps import apps
 from django.shortcuts import get_object_or_404
-from django.forms import modelform_factory,inlineformset_factory
+from django.forms import modelform_factory, inlineformset_factory
 from django.forms.models import fields_for_model
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
-
 
 
 class Counter:
@@ -22,11 +21,12 @@ class Counter:
     def double(self):
         self.count *= 2
         return ''
+
+
 from django.forms import ModelForm
 from django.forms.models import model_to_dict
 from django.template.loader import render_to_string
 from django.http import JsonResponse
-
 
 
 def get_model(num):
@@ -39,7 +39,8 @@ def get_model(num):
             models.append(mod)
     return models[num]
 
-def get_values_of_objects(objects, object_fields ):
+
+def get_values_of_objects(objects, object_fields):
     values = []
     for obj in objects:
         temp = []
@@ -47,7 +48,6 @@ def get_values_of_objects(objects, object_fields ):
             temp.append(getattr(obj, field.name))
         values.append(temp)
     return values
-
 
 
 def main_admin_panel(request):
@@ -61,16 +61,18 @@ def main_admin_panel(request):
 
     return render(request, 'admin_panel/main_admin_list_page.html', {'table_names': model_names, 'counter': counter})
 
+
 @csrf_exempt
 def admin_current_table(request, pk):
     context = {}
-    selected_model = get_model(pk) # выбранная пользователем модель(тип данных)
+    selected_model = get_model(pk)  # выбранная пользователем модель(тип данных)
 
     selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
 
-    selected_model_objects = selected_model.objects.order_by('id')# все объекты выбранного типа данных отсортированные по id
+    selected_model_objects = selected_model.objects.order_by(
+        'id')  # все объекты выбранного типа данных отсортированные по id
 
-    values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields) #значения объекта
+    values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields)  # значения объекта
 
     field_names = []  # имена полей(столбцов таблицы)
 
@@ -88,7 +90,7 @@ def admin_current_table(request, pk):
         modal_context = {
             'form': form,
             'user': request.user,
-            'obj' : obj,
+            'obj': obj,
             'selected_model_name': selected_model._meta.verbose_name,
             'selected_model_objects': selected_model_objects,
             'fields': selected_model_fields,
@@ -106,16 +108,18 @@ def admin_current_table(request, pk):
 
     return render(request, 'admin_panel/admin_table.html', context, )
 
+
 @csrf_exempt
 def accept_change_data(request):
     if request.method == 'POST':
         context = {}
         selected_model = get_model(int(request.POST.get('tab_id')))  # выбранная пользователем модель(тип данных)
-        obj = get_object_or_404(selected_model, pk=int(request.POST.get('object_id')))  # получаем объект выбранной модели
-        selected_model_objects = selected_model.objects.order_by('id')  # все объекты выбранного типа данных отсортированные по id
+        obj = get_object_or_404(selected_model,
+                                pk=int(request.POST.get('object_id')))  # получаем объект выбранной модели
+        selected_model_objects = selected_model.objects.order_by(
+            'id')  # все объекты выбранного типа данных отсортированные по id
 
         selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
-
 
         field_names = []  # имена полей(столбцов таблицы)
         for field in selected_model_fields:  # получаем список имён полей для генерации формы
@@ -137,33 +141,53 @@ def accept_change_data(request):
         result = render_to_string('includes/table_objects.html', context)
         return JsonResponse({'result': result})
 
-        #return render(request, 'admin_panel/admin_table.html', context)
+        # return render(request, 'admin_panel/admin_table.html', context)
 
-
-
-
-
-def edit_table(request, pk, idd):
-    print("я вызвался")
-    selected_model = get_model(pk)  # выбранная пользователем модель(тип данных)
-    selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
-
-    obj = get_object_or_404(selected_model, pk=idd) # получаем объект выбранной модели
-    for field in selected_model_fields: # получаем список имён полей для генерации формы
-        if field.editable:
-            field_names.append(field.name)
-
-    temp_form = modelform_factory(selected_model, fields=field_names)#Форма для выбранного объекта, может используется для создания новой формы, поэтому temp
-    form = temp_form(instance=obj)
+@csrf_exempt
+def add_modal_form(request):
     if request.method == "POST":
-        print("edefewfwefweg AUE")
-        form = temp_form(request.POST, instance=obj)
+        context = {}
+        selected_model = get_model(int(request.POST.get('tab_id')))  # выбранная пользователем модель(тип данных)
+        selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
+        field_names = []  # имена полей(столбцов таблицы)
+        for field in selected_model_fields:  # получаем список имён полей для генерации формы
+            if field.editable:
+                field_names.append(field.name)
+        add_form = modelform_factory(selected_model, fields=field_names)  # Форма для выбранного объекта, может используется для создания новой формы, поэтому temp
+        context["add_form"] = add_form
+        context['selected_model_name'] = selected_model._meta.verbose_name
+        context['tabnum'] = int(request.POST.get('tab_id'))
+        result = render_to_string('includes/modal_add_object.html', context)
+        return JsonResponse({'result': result})
+
+
+@csrf_exempt
+def accept_add_data(request):
+    if request.method == "POST":
+        context = {}
+        selected_model = get_model(int(request.POST.get('tab_id')))  # выбранная пользователем модель(тип данных)
+        selected_model_objects = selected_model.objects.order_by(
+            'id')  # все объекты выбранного типа данных отсортированные по id
+        selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
+        field_names = []  # имена полей(столбцов таблицы)
+        for field in selected_model_fields:  # получаем список имён полей для генерации формы
+            if field.editable:
+                field_names.append(field.name)
+
+        temp_form = modelform_factory(selected_model, fields=field_names)
+        form = temp_form(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.save()
+        values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields)  # значения объекта
 
-    return render(request, 'admin_panel/edit_table.html', {'selected_model_name': selected_model._meta.verbose_name,
-                                                           'fields': selected_model_fields,
-                                                           'tabnum': int(pk),
-                                                           'form': form,
-                                                           'obj': obj}, )
+        context['selected_model_name'] = selected_model._meta.verbose_name
+        context['selected_model_objects'] = selected_model_objects
+        context['fields'] = selected_model_fields
+        context['values_of_fields'] = values_of_fields
+        context['tabnum'] = int(request.POST.get('tab_id'))
+        context['script_path'] = "/static/js/admin_actions.js"
+        result = render_to_string('includes/table_objects.html', context)
+        return JsonResponse({'result': result})
+
+

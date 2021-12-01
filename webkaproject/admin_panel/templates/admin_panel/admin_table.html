@@ -7,10 +7,6 @@
 {% endblock %}
 
 {% block content %}
-<div id="modal_window">
-    {% include 'includes/modal_change_object.html'%}
-</div>
-
 <div class="container-content">
     <a class="list-group-item list-group-item-action bg-info text-dark"
        href="{% url 'admin_panel:admin_main' %}">Назад</a>
@@ -19,9 +15,20 @@
 
 <h4 class="zagolovok">Таблица: {{ selected_model_name }}</h4>
 
-
+<form>
+    <input type="hidden" name="tab_id" value="{{ tabnum }}">
+    <button id="addButton" type="button" data-url="{% url 'admin_panel:add_modal_form' %}"
+            name="addButton" class="btn btn-primary">Добавить {{ selected_model_name }}
+    </button>
+</form>
 <div id="table_block" class="table_block">
     {% include 'includes/table_objects.html'%}
+</div>
+<div id="modal_window">
+    {% include 'includes/modal_change_object.html'%}
+</div>
+<div id="modal_add_window">
+    {% include 'includes/modal_add_object.html'%}
 </div>
 
 

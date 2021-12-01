@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Редактировать {{ obj }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Добавить {{ selected_model_name }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,10 +18,14 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button id="acceptButton" type="button" data-url="{% url 'admin_panel:accept_data' %}"
-                            name="accept_data" class="btn btn-primary">Принять
-                    </button>
-                <script>$("#acceptButton").on('click', function (event) {
-    alert("Aue accept");
+                        name="accept_data" class="btn btn-primary">Принять
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>$("#acceptButton").on('click', function (event) {
     let $form = $('#edit_form');
     $.ajax({
         url: '/admin1/accept_data',
@@ -30,14 +34,9 @@
         dataType: "html",
 
         success: function (response) {
-            $("#table_block").html(JSON.parse(response)['result'])
-            $('#exampleModal').modal("hide")
+            $("#table_block").html(JSON.parse(response)['result']);
+            $('#exampleModal').modal("hide");
         }
     });
 });
 </script>
-            </div>
-        </div>
-    </div>
-</div>
-
