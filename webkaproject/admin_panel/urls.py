@@ -10,5 +10,6 @@ urlpatterns = [
     path('/accept_data', views.accept_change_data, name='accept_data'),
     path('/add_modal_form', views.add_modal_form, name='add_modal_form'),
     path('/accept_add_data', views.accept_add_data, name='accept_add_data'),
+    path('/delete_object', views.delete_object, name='delete_object'),
 
 ]

@@ -5,7 +5,8 @@ from django.forms import modelform_factory, inlineformset_factory
 from django.forms.models import fields_for_model
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
-
+from account.models import Account
+from django.contrib import messages
 
 class Counter:
     count = 0
@@ -166,6 +167,7 @@ def accept_add_data(request):
     if request.method == "POST":
         context = {}
         selected_model = get_model(int(request.POST.get('tab_id')))  # выбранная пользователем модель(тип данных)
+
         selected_model_objects = selected_model.objects.order_by(
             'id')  # все объекты выбранного типа данных отсортированные по id
         selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
@@ -178,7 +180,45 @@ def accept_add_data(request):
         form = temp_form(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
+            print('форма валидная')
+            if selected_model == Account:
+                obj.set_password(form.cleaned_data['password'])
             obj.save()
+        else:
+            context_modal_add ={}
+            context_modal_add['add_form'] = form
+            context_modal_add['tabnum'] = int(request.POST.get('tab_id'))
+            print(form.errors)
+            result = render_to_string('includes/modal_add_object.html', context_modal_add)
+            return JsonResponse({'errors':form.errors, 'result': result})
+
+        values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields)  # значения объекта
+
+        context['selected_model_name'] = selected_model._meta.verbose_name
+        context['selected_model_objects'] = selected_model_objects
+        context['fields'] = selected_model_fields
+        context['values_of_fields'] = values_of_fields
+        context['tabnum'] = int(request.POST.get('tab_id'))
+        context['script_path'] = "/static/js/admin_actions.js"
+        result = render_to_string('includes/table_objects.html', context)
+        return JsonResponse({'result': result})
+
+@csrf_exempt
+def delete_object(request):
+    if request.method == "POST":
+        context = {}
+        selected_model = get_model(int(request.POST.get('tab_id')))  # выбранная пользователем модель(тип данных)
+        selected_model_objects = selected_model.objects.order_by(
+            'id')  # все объекты выбранного типа данных отсортированные по id
+        selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
+        field_names = []  # имена полей(столбцов таблицы)
+        for field in selected_model_fields:  # получаем список имён полей для генерации формы
+            if field.editable:
+                field_names.append(field.name)
+
+        obj = get_object_or_404(selected_model,
+                                pk=int(request.POST.get('object_id')))  # получаем объект выбранной модели
+        obj.delete()
         values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields)  # значения объекта
 
         context['selected_model_name'] = selected_model._meta.verbose_name

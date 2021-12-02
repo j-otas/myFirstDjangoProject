@@ -18,12 +18,15 @@
                 <form method="POST" class="d-flex mt-2">
                     {% csrf_token %}
                     <input type="hidden" name="object_id" value="{{ obj.0 }}">
-                    <button type="button" data-url="{% url 'admin_panel:admin_current_table' pk=tabnum %}"
+                    <input type="hidden" name="tab_id" value="{{ tabnum }}">
+                    <button id="show_change_modal" type="button" data-url="{% url 'admin_panel:admin_current_table' pk=tabnum %}"
                             name="send_object_data" class="btn btn-primary">Редактировать
                     </button>
-
+                    <button id="deleteButton" type="button" data-url="{% url 'admin_panel:delete_object'%}"
+                            name="deleteButton" class="btn btn-danger">Удалить
+                    </button>
                 </form>
-                <a class="list-group-item list-group-item-action bg-danger text-dark" href="/product/1/edit">Удалить</a>
+
             </td>
 
             {% for value in obj %}
@@ -31,7 +34,7 @@
             {% endfor %}
         </tr>
         {% endfor %}
+
         </tbody>
     </table>
-    <script src="{{ script_path }}"></script>
 </div>

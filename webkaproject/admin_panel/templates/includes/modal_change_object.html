@@ -25,18 +25,3 @@
         </div>
     </div>
 </div>
-<script>$("#acceptButton").on('click', function (event) {
-    let $form = $('#edit_form');
-    $.ajax({
-        url: '/admin1/accept_data',
-        type: "POST",
-        data: $form.serialize(),
-        dataType: "html",
-
-        success: function (response) {
-            $("#table_block").html(JSON.parse(response)['result']);
-            $('#exampleModal').modal("hide");
-        }
-    });
-});
-</script>

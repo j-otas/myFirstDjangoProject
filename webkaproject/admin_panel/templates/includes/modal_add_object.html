@@ -9,6 +9,11 @@
                 </button>
             </div>
             <form id="add_form" class="modal-body">
+                {% if messages %}
+                {% for message in messages %}
+                alert('{{message}}')
+                {% endfor %}
+                {% endif %}
                 <input type="hidden" name="tab_id" value="{{ tabnum }}">
                 {{ add_form.as_p }}
             </form>
@@ -22,19 +27,3 @@
         </div>
     </div>
 </div>
-<script>$("#acceptAddButton").on('click', function (event) {
-                    let $form = $('#add_form');
-                    $.ajax({
-                        url: $('#acceptAddButton').attr('data-url'),
-                        type: "POST",
-                        data: $form.serialize(),
-                        dataType: "html",
-
-                        success: function (response) {
-                            $('.table_block').html(JSON.parse(response)['result']);
-                            alert("я обновил табличку");
-                            $('#addModal').modal("hide");
-                        }
-                    });
-                });
-                </script>
