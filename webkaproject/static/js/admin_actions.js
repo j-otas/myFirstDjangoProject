@@ -109,6 +109,32 @@ function cancel_product(pk) {
     });
 }
 
+function accept_user(pk) {
+    $.ajax({
+        url: $('.accept_user_button').attr('data-url'),
+
+        success: function (data) {
+            $('.accept_user_button').parent().parent('#user_block-'+pk).remove()
+        },
+        failed: function () {
+            console.log('ajax FAILED!');
+        }
+    });
+}
+
+function cancel_user(pk) {
+    $.ajax({
+        url: $('.cancel_user_button').attr('data-url'),
+
+        success: function (data) {
+            $('.cancel_user_button').parent().parent('#user_block-'+pk).remove()
+        },
+        failed: function () {
+            console.log('ajax FAILED!');
+        }
+    });
+}
+
 
 
 

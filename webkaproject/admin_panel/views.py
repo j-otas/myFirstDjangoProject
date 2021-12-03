@@ -244,14 +244,27 @@ class ModerateProductList(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         data = {'products': Product.objects.filter(is_moderated=False)}
         return data
-
-
 def accept_moderate_product(request, pk):
     if request.is_ajax():
         Product.objects.filter(pk=pk).update(is_moderated=True)
         return JsonResponse({'result': 'success'})
-
 def cancel_moderate_product(request, pk):
     if request.is_ajax():
         Product.objects.filter(pk=pk).delete()
+        return JsonResponse({'result': 'success'})
+
+class ModerateUserList(ListView):
+    model = Account
+    template_name = 'admin_panel/user_moderate.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = {'accs': Account.objects.filter(is_moderated=False, is_superuser=False, is_admin=False, is_staff=False)}
+        return data
+def accept_moderate_user(request, pk):
+    if request.is_ajax():
+        Account.objects.filter(pk=pk).update(is_moderated=True)
+        return JsonResponse({'result': 'success'})
+def cancel_moderate_user(request, pk):
+    if request.is_ajax():
+        Account.objects.filter(pk=pk).delete()
         return JsonResponse({'result': 'success'})
