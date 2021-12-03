@@ -4,9 +4,12 @@ from django.shortcuts import get_object_or_404
 from django.forms import modelform_factory, inlineformset_factory
 from django.forms.models import fields_for_model
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import ListView
 from django.shortcuts import redirect
 from account.models import Account
+from marketplace1.models import Product
 from django.contrib import messages
+
 
 class Counter:
     count = 0
@@ -144,6 +147,7 @@ def accept_change_data(request):
 
         # return render(request, 'admin_panel/admin_table.html', context)
 
+
 @csrf_exempt
 def add_modal_form(request):
     if request.method == "POST":
@@ -154,7 +158,8 @@ def add_modal_form(request):
         for field in selected_model_fields:  # получаем список имён полей для генерации формы
             if field.editable:
                 field_names.append(field.name)
-        add_form = modelform_factory(selected_model, fields=field_names)  # Форма для выбранного объекта, может используется для создания новой формы, поэтому temp
+        add_form = modelform_factory(selected_model,
+                                     fields=field_names)  # Форма для выбранного объекта, может используется для создания новой формы, поэтому temp
         context["add_form"] = add_form
         context['selected_model_name'] = selected_model._meta.verbose_name
         context['tabnum'] = int(request.POST.get('tab_id'))
@@ -185,12 +190,12 @@ def accept_add_data(request):
                 obj.set_password(form.cleaned_data['password'])
             obj.save()
         else:
-            context_modal_add ={}
+            context_modal_add = {}
             context_modal_add['add_form'] = form
             context_modal_add['tabnum'] = int(request.POST.get('tab_id'))
             print(form.errors)
             result = render_to_string('includes/modal_add_object.html', context_modal_add)
-            return JsonResponse({'errors':form.errors, 'result': result})
+            return JsonResponse({'errors': form.errors, 'result': result})
 
         values_of_fields = get_values_of_objects(selected_model_objects, selected_model_fields)  # значения объекта
 
@@ -202,6 +207,7 @@ def accept_add_data(request):
         context['script_path'] = "/static/js/admin_actions.js"
         result = render_to_string('includes/table_objects.html', context)
         return JsonResponse({'result': result})
+
 
 @csrf_exempt
 def delete_object(request):
@@ -231,3 +237,21 @@ def delete_object(request):
         return JsonResponse({'result': result})
 
 
+class ModerateProductList(ListView):
+    model = Product
+    template_name = 'admin_panel/product_moderate.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = {'products': Product.objects.filter(is_moderated=False)}
+        return data
+
+
+def accept_moderate_product(request, pk):
+    if request.is_ajax():
+        Product.objects.filter(pk=pk).update(is_moderated=True)
+        return JsonResponse({'result': 'success'})
+
+def cancel_moderate_product(request, pk):
+    if request.is_ajax():
+        Product.objects.filter(pk=pk).delete()
+        return JsonResponse({'result': 'success'})

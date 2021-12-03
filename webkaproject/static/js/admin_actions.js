@@ -27,7 +27,6 @@ $('body').on('click', '#acceptButton', function (event) {
         }
     });
 });
-
 $('body').on('click', '#deleteButton', function (event) {
     let $form = $(event.currentTarget).parent();
     $.ajax({
@@ -84,6 +83,31 @@ $("body").on('click', '#acceptAddButton', function (event) {
     });
 });
 
+function accept_product(pk) {
+    $.ajax({
+        url: $('.accept_product_button').attr('data-url'),
+
+        success: function (data) {
+            $('.accept_product_button').parent().parent('#product_block-'+pk).remove()
+        },
+        failed: function () {
+            console.log('ajax FAILED!');
+        }
+    });
+}
+
+function cancel_product(pk) {
+    $.ajax({
+        url: $('.cancel_product_button').attr('data-url'),
+
+        success: function (data) {
+            $('.cancel_product_button').parent().parent('#product_block-'+pk).remove()
+        },
+        failed: function () {
+            console.log('ajax FAILED!');
+        }
+    });
+}
 
 
 

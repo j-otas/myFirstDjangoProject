@@ -28,6 +28,7 @@ class Product(models.Model):
     cost = models.fields.IntegerField(blank=False, null=True, verbose_name="Цена")
     image = models.ImageField(blank=True, null=True, verbose_name="Изображение", upload_to='product_images/', default="no_image.png")
     is_active = models.BooleanField(default = False)
+    is_moderated = models.BooleanField(default = False)
 
 
 

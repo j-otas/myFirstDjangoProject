@@ -25,7 +25,7 @@ if settings.DEBUG:
         path('auth/', include('authorization.urls')),
         path('auc/', include('auction.urls')),
         path('dialogs/', include('messenger.urls')),
-        path('admin1', include('admin_panel.urls')),
+        path('admin1/', include('admin_panel.urls')),
 
     ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #
