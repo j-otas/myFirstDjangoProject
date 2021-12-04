@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
-from .models import Product, Category
+from .models import Product, Category, FavoriteProduct
 from account.models import Account
 from .forms import ProductForm
 from django.shortcuts import redirect
@@ -88,7 +88,6 @@ def product_edit(request, pk):
         form = ProductForm(instance=product)
     return render(request, 'marketplace/product_edit.html', {'form': form, 'product_pk':product.pk,'categories': categories})
 
-
 class SearchResultsView(ListView):
     model = Product
     template_name = 'marketplace/product_search_results.html'
@@ -121,3 +120,11 @@ def delete_product(request, product_id):
         return HttpResponseRedirect(reverse_lazy("marketplace1:product_list"))
     except Product.DoesNotExist:
         return HttpResponseNotFound("<h2>Person not found</h2>")
+
+class FavoriteProductsList(ListView):
+    model = FavoriteProduct
+    template_name = 'marketplace/favorite_products_list.html'
+    def get_context_data(self, *, object_list=None, **kwargs):
+        data = {'favorites': FavoriteProduct.objects.filter(user=self.request.user)}
+        temp = FavoriteProduct.objects.filter(user=self.request.user)
+        return data

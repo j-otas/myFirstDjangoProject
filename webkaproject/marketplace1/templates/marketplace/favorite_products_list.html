@@ -1,0 +1,22 @@
+{% extends 'marketplace/marketplace_main_page_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container content">
+        <div class="dialogs_block">
+            <h2 class="text-center">Избранные товары</h2>
+            <h4>Ваши избранные:</h4>
+            {% if favorites %}
+            <div class="chats_list">
+                {% include 'includes/favorite_item.html' %}
+            </div>
+            {% else %}
+            <p>Избранных товаров нет =(</p>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

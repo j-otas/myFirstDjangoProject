@@ -13,5 +13,6 @@ urlpatterns = [
     path('personal/<int:pk>', views.Personal.as_view(), name='personal_page'),
     path('refill', views.BalanceRefill.as_view(), name='refill_page'),
     path('search', views.SearchResultsView.as_view(), name='search_results'),
+    path('favorite', views.FavoriteProductsList.as_view(), name='favorite_products'),
 
 ]

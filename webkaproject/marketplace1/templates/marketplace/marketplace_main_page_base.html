@@ -15,7 +15,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 
-
 </head>
 
 <body>
@@ -27,54 +26,70 @@
             </div>
             <div class="col-6">
                 <ul class="nav-actions">
-                    <li><a href =
+                    <li><a href=
                                    {% if user.is_authenticated %}
                                         {% url 'admin_panel:admin_main' %}
 
                                     {% else %}
                                         {% url 'authorization:auth_page' %}
                                    {% endif %}>Администрирование</a></li>
+
                     <li><a href="{% url 'admin_panel:admin_main' %}">Администрирование</a></li>
-                    <li><a href="{% url 'messenger:dialog_list' %}">Сообщения</a></li>
+
+                    <li><a href=
+                            {% if user.is_authenticated %}
+                                {% url 'messenger:dialog_list' %}
+                            {% else %}
+                                {% url 'authorization:auth_page' %}
+                            {% endif %}>Сообщения</a></li>
+
+                    <li><a href=
+                            {% if user.is_authenticated %}
+                                {% url 'marketplace1:favorite_products' %}
+                            {% else %}
+                                {% url 'authorization:auth_page' %}
+                            {% endif %}>Избранное</a></li>
                 </ul>
             </div>
         </div>
         <div class="row">
             <div class="col-1">
                 <div class="logo">
-                    <a href= "{%url 'marketplace1:product_list' %}">LOGO</a>
+                    <a href="{%url 'marketplace1:product_list' %}">LOGO</a>
                 </div>
             </div>
-                <form class="input-group col-md-8", action="{% url 'marketplace1:search_results' %}", method = "GET">
-                        <div class="input-group-btn">
-                          <select name = 'category', class="categories_btn">
-                            <option value="-1" active>Категория</option>-->
-                            {% for category in categories %}
-                            <option value={{ category.id }}  >{{category}}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
-                        <input name = 'q' type="text" name="search[input]" placeholder="Поиск объявления..." class="form-control"/>
-                        <div class="input-group-btn">
-                          <button type="submit" class="btn">Поиск <i class="glyphicon glyphicon-search"></i></button>
-                        </div>
-                </form>
-<!--                <div class="categories_btn">-->
-<!--
-<!--                </div>-->
-<!--            <div class="col-6">-->
-<!--                <form action="{% url 'marketplace1:search_results' %}", method = "GET">-->
-<!--                    <input name = "q" type="text" placeholder="Поиск по объялениям">-->
-<!--                    <button type="submit" name="button">Найти</button>-->
-<!--                </form>-->
-<!--                <p>Баланс:{{ user.userdetails.balance }}</p>-->
-<!--            </div>-->
+            <form class="input-group col-md-8" , action="{% url 'marketplace1:search_results' %}" , method="GET">
+                <div class="input-group-btn">
+                    <select name='category' , class="categories_btn">
+                        <option value="-1" active>Категория</option>
+                        -->
+                        {% for category in categories %}
+                        <option value={{ category.id }}>{{category}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input name='q' type="text" name="search[input]" placeholder="Поиск объявления..."
+                       class="form-control"/>
+                <div class="input-group-btn">
+                    <button type="submit" class="btn">Поиск <i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </form>
+            <!--                <div class="categories_btn">-->
+            <!--
+            <!--                </div>-->
+            <!--            <div class="col-6">-->
+            <!--                <form action="{% url 'marketplace1:search_results' %}", method = "GET">-->
+            <!--                    <input name = "q" type="text" placeholder="Поиск по объялениям">-->
+            <!--                    <button type="submit" name="button">Найти</button>-->
+            <!--                </form>-->
+            <!--                <p>Баланс:{{ user.userdetails.balance }}</p>-->
+            <!--            </div>-->
             <div class="col-2">
                 <div class="make_product">
                     <span>
-                        <a href =
+                        <a href=
                                    {% if user.is_authenticated %}
-                                        {% url 'marketplace1:product_new' %}
+                           {% url 'marketplace1:product_new' %}
 
                                     {% else %}
                                         {% url 'authorization:auth_page' %}
@@ -92,8 +107,8 @@
                     <div class="logout">Выйти</div>
                 </a>
                 {% else %}
-                <a href ="{% url 'authorization:auth_page' %}" class="go_auth">
-                    <div class = 'go_auth_btn'>Войти</div>
+                <a href="{% url 'authorization:auth_page' %}" class="go_auth">
+                    <div class='go_auth_btn'>Войти</div>
                 </a>
                 {% endif %}
             </div>

@@ -100,11 +100,7 @@ th.functions-table {
     border-radius: 5px;
     overflow: hidden;
     z-index: 0;
-    width: 100%;
-
-a {
-    color: inherit;
-}
+    width: 100%;}
 
 .meta {
     position: relative;
