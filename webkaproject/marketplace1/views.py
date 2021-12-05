@@ -11,6 +11,8 @@ from django.db.models import Q
 from decimal import *
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseNotFound
 from django.templatetags.static import static
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 categories = Category.objects.all()
 
@@ -21,7 +23,14 @@ def product_list(request):
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    return render(request, 'marketplace/product_detail.html', {'product': product,'categories': categories})
+    is_fav = False
+    try:
+        fav = FavoriteProduct.objects.get(user=request.user, product=product)
+    except FavoriteProduct.DoesNotExist:
+        fav = False
+    if fav:
+        is_fav = True
+    return render(request, 'marketplace/product_detail.html', {'product': product,'categories': categories, 'is_fav':is_fav})
 
 
 class NewProductView(CreateView):
@@ -128,3 +137,42 @@ class FavoriteProductsList(ListView):
         data = {'favorites': FavoriteProduct.objects.filter(user=self.request.user)}
         temp = FavoriteProduct.objects.filter(user=self.request.user)
         return data
+
+def add_favorite_product(request,pk):
+
+    if request.is_ajax():
+        product = Product.objects.get(pk=pk)
+        favorite = FavoriteProduct(user=request.user, product=product)
+        favorite.save()
+        context = {}
+        context['is_fav'] = True
+        context['product'] = product
+        result = render_to_string('includes/favorite_block.html', context)
+        return JsonResponse({'result': result})
+
+def delete_favorite_product(request,pk):
+
+    if request.is_ajax():
+        try:
+            product = Product.objects.get(pk=pk)
+            favorite = FavoriteProduct.objects.get(user=request.user, product=product)
+            favorite.delete()
+            context = {}
+            context['is_fav'] = False
+            context['product'] = product
+            result = render_to_string('includes/favorite_block.html', context)
+            return JsonResponse({'result': result})
+        except Product.DoesNotExist:
+            return HttpResponseNotFound("<h2>Favorite not found</h2>")
+
+def delete_from_favorit_list(request,pk):
+    if request.is_ajax():
+        try:
+            print("sdadsad")
+            product = Product.objects.get(pk=pk)
+            favorite = FavoriteProduct.objects.get(user=request.user, product=product)
+            favorite.delete()
+            return JsonResponse({'result': 'success'})
+        except Product.DoesNotExist:
+            return HttpResponseNotFound("<h2>Favorite not found</h2>")
+

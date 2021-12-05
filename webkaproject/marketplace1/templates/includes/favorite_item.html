@@ -1,15 +1,15 @@
 {% for favorite in favorites %}
-<div class="chat_item">
+<div class="chat_item-{{favorite.product.pk}}">
         <div class="chat_item_button">
             <a href="{% url 'marketplace1:product_detail' favorite.product.pk %}" class="btn btn-success mr-1">Подробнее</a>
-             <a href="#" class="btn btn-danger">Удалить из збранного</a>
+             <button onclick="delete_favorite_list({{ favorite.product.pk }})" data-url="{% url 'marketplace1:delete_from_favorit_list' pk=favorite.product.pk %}" class="favorit_list_delete btn btn-danger">Удалить из збранного</button>
         </div>
             <div class="chat_title">
                 <img class = "chat_image" src = '{{favorite.product.image.url}}'>
                 <a href = "{% url 'marketplace1:personal_page' pk=favorite.product.author.pk %}">
                     <h5 style = 'margin: 0 0 0 0;'>{{favorite.product.author.first_name}} {{favorite.product.author.last_name}}</h5>
                 </a>
-                <h5>{{favorite.product.title}}</h5>
+                <h5>{{favorite.product.title}}-{{favorite.product.cost}}₽</h5>
             </div>
     </div>
 

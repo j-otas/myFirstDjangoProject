@@ -1,0 +1,7 @@
+<div class="favorite_block" data-product_pk="{{ product.pk }}">
+    {% if is_fav %}
+    <button class="delete_favorite btn btn-secondary" onclick="delete_favorite({{ product.pk }})" data-url="{% url 'marketplace1:delete_favorite_product' pk=product.pk %}">Удалить из избранного</button>
+    {% else %}
+    <button class="add_favorite btn btn-info" onclick="put_favorite({{ product.pk }})" data-url="{% url 'marketplace1:add_favorite_product' pk=product.pk %}">Добавить в избранное</button>
+    {% endif %}
+</div>
