@@ -4,7 +4,11 @@
 {% block content %}
 <div class = "personal_data">
     {% if cur_user %}
-    <h1>Логин:{{ cur_user.username }}</h1>
+    <div class="profile_ava_block">
+        <img class="profile_ava" src="{% static 'no_image.png' %}">
+    </div>
+
+    <h1>Имя:{{ cur_user.first_name }} {{ cur_user.last_name }}</h1>
     <h1>Город:{% if cur_user.country %}{{ cur_user.country  }}
         {% else %}<a href="#">Редактировать</a>
         {% endif %}
@@ -14,6 +18,9 @@
         {% endif %}</h1>
     {% else %}
     <h1>Пользователь не найден</h1>
+    {% endif %}
+    {% if user == cur_user %}
+        <a href="{% url 'marketplace1:personal_edit' pk=user.pk %}">Редактировать</a>
     {% endif %}
 </div>
 

@@ -13,6 +13,8 @@ from django.http import HttpResponse,HttpResponseRedirect,HttpResponseNotFound
 from django.templatetags.static import static
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from account.forms import RegistrationForm
+from django.contrib.auth import authenticate, login
 
 categories = Category.objects.all()
 
@@ -175,4 +177,21 @@ def delete_from_favorit_list(request,pk):
             return JsonResponse({'result': 'success'})
         except Product.DoesNotExist:
             return HttpResponseNotFound("<h2>Favorite not found</h2>")
+
+def personal_edit(request,pk):
+    cur_user = Account.objects.get(pk=pk)
+    if request.method == "POST":
+        form = RegistrationForm(request.POST, instance=cur_user)
+        if form.is_valid():
+
+            cur_user = form.save(commit=False)
+            cur_user.save()
+            login(request,cur_user)
+            return redirect('marketplace1:personal_page', pk=cur_user.pk)
+
+
+    else:
+        form = RegistrationForm(instance=cur_user)
+    return render(request, 'personal/personal_edit.html',
+                  {'form': form,})
 

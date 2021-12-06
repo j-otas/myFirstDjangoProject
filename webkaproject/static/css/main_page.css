@@ -386,4 +386,10 @@ height:45px;
     margin: 0 15px;
 }
 
+.profile_ava_block{
+    max-width: 200px;
+}
 
+.profile_ava{
+    width: 100%;
+}
