@@ -5,7 +5,12 @@
 <div class = "personal_data">
     {% if cur_user %}
     <div class="profile_ava_block">
-        <img class="profile_ava" src="{% static 'no_image.png' %}">
+        {% if cur_user.avatar %}
+            <img class="profile_ava" src="{{ cur_user.avatar.url }}">
+        {% else %}
+            <img class="profile_ava" src="{% static 'no_image.png' %}">
+        {% endif %}
+
     </div>
 
     <h1>Имя:{{ cur_user.first_name }} {{ cur_user.last_name }}</h1>

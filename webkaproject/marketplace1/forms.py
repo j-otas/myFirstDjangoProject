@@ -1,7 +1,17 @@
 from django import forms
 
 from .models import Product
+from account.models import Account
 
+
+class PersonalEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Account
+        fields = ("email", "first_name", "last_name", "username", "country", "cellphone", "avatar",)
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
 
 class ProductForm(forms.ModelForm):
 

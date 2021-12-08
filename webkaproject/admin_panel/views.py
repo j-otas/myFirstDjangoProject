@@ -11,6 +11,7 @@ from marketplace1.models import Product
 from django.contrib import messages
 
 
+
 class Counter:
     count = 0
 
@@ -124,13 +125,14 @@ def accept_change_data(request):
             'id')  # все объекты выбранного типа данных отсортированные по id
 
         selected_model_fields = selected_model._meta.fields  # поля принадлежащие модели
-
         field_names = []  # имена полей(столбцов таблицы)
         for field in selected_model_fields:  # получаем список имён полей для генерации формы
             if field.editable:
                 field_names.append(field.name)
+
         temp_form = modelform_factory(selected_model,
                                       fields=field_names)
+
         form = temp_form(request.POST, instance=obj)
         if form.is_valid():
             obj = form.save(commit=False)
@@ -160,6 +162,7 @@ def add_modal_form(request):
                 field_names.append(field.name)
         add_form = modelform_factory(selected_model,
                                      fields=field_names)  # Форма для выбранного объекта, может используется для создания новой формы, поэтому temp
+
         context["add_form"] = add_form
         context['selected_model_name'] = selected_model._meta.verbose_name
         context['tabnum'] = int(request.POST.get('tab_id'))
@@ -188,6 +191,7 @@ def accept_add_data(request):
             print('форма валидная')
             if selected_model == Account:
                 obj.set_password(form.cleaned_data['password'])
+
             obj.save()
         else:
             context_modal_add = {}

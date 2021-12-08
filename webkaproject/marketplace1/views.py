@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import View
 from .models import Product, Category, FavoriteProduct
 from account.models import Account
-from .forms import ProductForm
+from .forms import ProductForm, PersonalEditForm
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.views.generic import CreateView, View, TemplateView, ListView, DeleteView
@@ -15,6 +15,7 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from account.forms import RegistrationForm
 from django.contrib.auth import authenticate, login
+from django.core.files.storage import FileSystemStorage
 
 categories = Category.objects.all()
 
@@ -26,8 +27,10 @@ def product_list(request):
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     is_fav = False
+    fav = False
     try:
-        fav = FavoriteProduct.objects.get(user=request.user, product=product)
+        if request.user.is_authenticated :
+            fav = FavoriteProduct.objects.get(user=request.user, product=product)
     except FavoriteProduct.DoesNotExist:
         fav = False
     if fav:
@@ -181,17 +184,23 @@ def delete_from_favorit_list(request,pk):
 def personal_edit(request,pk):
     cur_user = Account.objects.get(pk=pk)
     if request.method == "POST":
-        form = RegistrationForm(request.POST, instance=cur_user)
+        form = PersonalEditForm(request.POST, instance=cur_user)
+        fs = FileSystemStorage()
+        avatar_file = fs.save(('user_images/' + request.FILES['avatar'].name), request.FILES['avatar'])
+
+        print(request.FILES)
         if form.is_valid():
 
             cur_user = form.save(commit=False)
+            cur_user.avatar = 'user_images/' + str(request.FILES['avatar'])
+            print(cur_user.avatar)
             cur_user.save()
             login(request,cur_user)
             return redirect('marketplace1:personal_page', pk=cur_user.pk)
 
 
     else:
-        form = RegistrationForm(instance=cur_user)
+        form = PersonalEditForm(instance=cur_user)
     return render(request, 'personal/personal_edit.html',
                   {'form': form,})
 

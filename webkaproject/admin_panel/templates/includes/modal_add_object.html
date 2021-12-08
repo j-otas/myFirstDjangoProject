@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="add_form" class="modal-body">
+            <form method="post" id="add_form" enctype="multipart/form-data" class="modal-body">
                 {% if messages %}
                 {% for message in messages %}
                 alert('{{message}}')

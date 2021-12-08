@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from phonenumber_field.modelfields import PhoneNumberField
+from django.dispatch import receiver
+import os
 
 class MyAccountManager(BaseUserManager):
 
@@ -47,6 +49,8 @@ class Account(AbstractBaseUser):
     last_name = models.CharField(max_length = 30)
     cellphone = PhoneNumberField(null=True, blank=True, unique=True)
     country = models.CharField(max_length = 35)
+    avatar = models.ImageField(blank=True, null=True, verbose_name="Аватар пользователя", upload_to='user_images',
+                              default="no_image.png")
 
     date_joined = models.DateTimeField(verbose_name = 'date joined', auto_now_add = True)
     last_login = models.DateTimeField(verbose_name = 'last login', auto_now = True)
@@ -56,6 +60,7 @@ class Account(AbstractBaseUser):
     is_staff = models.BooleanField(default = False)
     is_superuser = models.BooleanField(default = False)
     is_moderated = models.BooleanField(default = False)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ["cellphone"]
 
@@ -74,4 +79,36 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+
+@receiver(models.signals.post_delete, sender=Account)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    """
+    Удаление изображений из файловой системы
+    """
+    if instance.image:
+        if os.path.isfile(instance.avatar.path):
+            os.remove(instance.avatar.path)
+
+
+@receiver(models.signals.pre_save, sender=Account)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    """
+    Удаление старых изображений из файловой системы при обновлении
+    """
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = Account.objects.get(pk=instance.pk).avatar
+        if not old_file:
+            return False
+    except Account.DoesNotExist:
+        return False
+
+    new_file = instance.avatar
+    if not old_file == new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
+
 
