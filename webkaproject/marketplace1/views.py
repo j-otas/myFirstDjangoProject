@@ -185,15 +185,17 @@ def personal_edit(request,pk):
     cur_user = Account.objects.get(pk=pk)
     if request.method == "POST":
         form = PersonalEditForm(request.POST, instance=cur_user)
-        fs = FileSystemStorage()
-        avatar_file = fs.save(('user_images/' + request.FILES['avatar'].name), request.FILES['avatar'])
+
 
         print(request.FILES)
         if form.is_valid():
 
             cur_user = form.save(commit=False)
-            cur_user.avatar = 'user_images/' + str(request.FILES['avatar'])
-            print(cur_user.avatar)
+            if request.FILES:
+                fs = FileSystemStorage()
+                avatar_file = fs.save(('user_images/' + request.FILES['avatar'].name), request.FILES['avatar'])
+                cur_user.avatar = 'user_images/' + str(request.FILES['avatar'])
+                print(cur_user.avatar)
             cur_user.save()
             login(request,cur_user)
             return redirect('marketplace1:personal_page', pk=cur_user.pk)

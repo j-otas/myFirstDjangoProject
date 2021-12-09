@@ -1,15 +1,14 @@
 {% load static %}
 <div class="blog-card">
     <div class="detail_img pt-0">
-        Здесь будет ава
-<!--        <img src={{ product.image.url }}>-->
+        <img src={{ acc.avatar.url }}>
     </div>
     <div class="description">
         <h1>Ник:{{ acc.username|linebreaksbr }}</h1>
         <h2>Имя-Фамилия: {{ acc.first_name|linebreaksbr }}-{{ acc.last_name|linebreaksbr }}</h2>
         <h3>Город:{{ acc.country }}</h3>
         <p class="read-more">
-            <a href="#">Подробнее</a>
+            <a href="{% url 'marketplace1:personal_page' pk=acc.pk %}">Подробнее</a>
         </p>
     </div>
 </div>

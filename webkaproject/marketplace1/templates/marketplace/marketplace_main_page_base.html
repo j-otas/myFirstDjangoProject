@@ -26,15 +26,8 @@
             </div>
             <div class="col-6">
                 <ul class="nav-actions">
-                    <li><a href=
-                                   {% if user.is_authenticated %}
-                                        {% url 'admin_panel:admin_main' %}
-
-                                    {% else %}
-                                        {% url 'authorization:auth_page' %}
-                                   {% endif %}>Администрирование</a></li>
-
-                    <li><a href="{% url 'admin_panel:admin_main' %}">Администрирование</a></li>
+                    {% if user.is_admin %}
+                    <li><a href={% url 'admin_panel:admin_main' %}>Администрирование</a></li>{% endif %}
 
                     <li><a href=
                             {% if user.is_authenticated %}
